@@ -251,13 +251,19 @@ const MONTHS_ID = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGU
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 
 // Anchor: Jun 2026 = column AI = 0-based index 34. Each month = +1 column.
+// REKAP, REAL, and TRANSAKSI share this month-column layout & row layout.
 const ANCHOR_COL = 34, ANCHOR_YEAR = 2026, ANCHOR_MONTH = 6;
-// Fixed budget rows in REAL sheet (1-based): confirmed by user.
+// Fixed rows (1-based) — same in REKAP & REAL, confirmed by user.
 const BUDGET_ROWS = { 'Belanja Bulanan': 35, 'Isi Bensin': 36, 'DAILY DRIVER': 46 };
+// Map Indonesian month name (as in TRANSAKSI "BUDGET BULAN") → 1-12.
+const MONTH_NAME_TO_NUM = {
+  JANUARI:1, FEBRUARI:2, MARET:3, APRIL:4, MEI:5, JUNI:6,
+  JULI:7, AGUSTUS:8, SEPTEMBER:9, OKTOBER:10, NOVEMBER:11, DESEMBER:12,
+};
 
 // ─── STATE ────────────────────────────────────────────────────
 let accessToken = null, tokenClient = null;
-let rawRealRows = [], allTx = [], budgetMap = {};
+let rawRealRows = [], rawRekapRows = [], allTx = [], budgetMap = {}, sisaMap = {};
 let selBudgetMonth = new Date().getMonth() + 1;
 let selBudgetYear  = new Date().getFullYear();
 let txMode = 'month';
@@ -324,11 +330,13 @@ async function loadData() {
   setRefreshing(true);
   setLastUpdated('Memuat...');
   try {
-    const [realRows, txRows] = await Promise.all([
+    const [realRows, rekapRows, txRows] = await Promise.all([
       fetchRange('REAL!A1:BZ400'),
+      fetchRange('REKAP!A1:BZ400'),
       fetchRange('TRANSAKSI!A1:N5000'),
     ]);
     rawRealRows = realRows;
+    rawRekapRows = rekapRows;
     parseTx(txRows);
     parseBudget();
     updateBudgetLabel();
@@ -364,6 +372,8 @@ function parseTx(rows) {
     nom:    find('nominal'),
     sumber: find('sumber_dana_final', 'sumber dana'),
     merchant: find('merchant'),
+    budgetBulan: find('budget bulan'),
+    tahunBudget: find('tahun budget'),
   };
   for (let i = 1; i < rows.length; i++) {
     const r = rows[i];
@@ -376,7 +386,11 @@ function parseTx(rows) {
     const merchant = C.merchant >= 0 ? (r[C.merchant] || '').toString().trim() : '';
     const ket = C.ket >= 0 ? (r[C.ket] || '').toString().trim() : '';
     const sumber = C.sumber >= 0 ? (r[C.sumber] || '').toString().trim() : '';
-    allTx.push({ date, tanggal, pos, keterangan: merchant || ket || '—', nominal, sumber });
+    // BUDGET BULAN / TAHUN BUDGET drive the "Terpakai" total in Menu 1.
+    const bbName = C.budgetBulan >= 0 ? (r[C.budgetBulan] || '').toString().trim().toUpperCase() : '';
+    const budgetMonth = MONTH_NAME_TO_NUM[bbName] || null;
+    const budgetYear = C.tahunBudget >= 0 ? parseInt((r[C.tahunBudget] || '').toString().replace(/[^\d]/g, '')) || null : null;
+    allTx.push({ date, tanggal, pos, keterangan: merchant || ket || '—', nominal, sumber, budgetMonth, budgetYear });
   }
   allTx.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
 }
@@ -385,17 +399,23 @@ function parseTx(rows) {
 function colForMonth(year, month) {
   return ANCHOR_COL + (year - ANCHOR_YEAR) * 12 + (month - ANCHOR_MONTH);
 }
+function cellNum(rows, rowNum, col) {
+  const row = rows[rowNum - 1] || [];
+  const raw = (row[col] || '').toString().replace(/[^\d-]/g, '');
+  const val = parseInt(raw);
+  return isNaN(val) ? null : val;
+}
 function parseBudget() {
-  budgetMap = {};
-  const rows = rawRealRows;
-  if (!rows.length) return;
+  budgetMap = {};   // Budget — from REKAP sheet
+  sisaMap = {};     // Sisa — from REAL sheet
   const targetCol = colForMonth(selBudgetYear, selBudgetMonth);
   if (targetCol < 0) return;
   for (const cat of CATS) {
-    const row = rows[BUDGET_ROWS[cat] - 1] || [];
-    const raw = (row[targetCol] || '').toString().replace(/[^\d-]/g, '');
-    const val = parseInt(raw);
-    if (!isNaN(val) && val > 0) budgetMap[cat] = val;
+    const rowNum = BUDGET_ROWS[cat];
+    const b = cellNum(rawRekapRows, rowNum, targetCol);  // Budget from REKAP
+    if (b !== null && b > 0) budgetMap[cat] = b;
+    const s = cellNum(rawRealRows, rowNum, targetCol);   // Sisa from REAL
+    if (s !== null) sisaMap[cat] = s;
   }
 }
 
@@ -418,10 +438,13 @@ function onBudgetMonthChange() {
 function updateBudgetLabel() {
   document.getElementById('budgetLabel').textContent = `Sisa Budget — ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear}`;
 }
+// "Terpakai" = sum of transactions whose BUDGET BULAN / TAHUN BUDGET
+// match the selected month (not the transaction date).
 function actualsForMonth(m, y) {
   const out = {}; CATS.forEach(c => out[c] = 0);
-  const prefix = `${y}-${String(m).padStart(2,'0')}`;
-  for (const tx of allTx) if (tx.tanggal.startsWith(prefix) && out[tx.pos] !== undefined) out[tx.pos] += tx.nominal;
+  for (const tx of allTx) {
+    if (tx.budgetMonth === m && tx.budgetYear === y && out[tx.pos] !== undefined) out[tx.pos] += tx.nominal;
+  }
   return out;
 }
 function renderBudgetCards() {
@@ -432,7 +455,8 @@ function renderBudgetCards() {
   for (const cat of CATS) {
     const budget = budgetMap[cat] || 0;
     const actual = actuals[cat] || 0;
-    const sisa = budget - actual;
+    // Sisa comes straight from the REAL sheet; fall back to budget−terpakai if absent.
+    const sisa = (cat in sisaMap) ? sisaMap[cat] : (budget - actual);
     const pct = budget > 0 ? Math.min(100, Math.round((actual / budget) * 100)) : null;
     const { icon } = CAT_META[cat];
     let fillCls = 'fill-ok', badgeCls = 'badge-ok', badgeTxt = pct + '%';
