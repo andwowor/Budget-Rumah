@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Budget Rumah</title>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f4f8; color: #1e293b; min-height: 100vh; }
+
+    /* HEADER */
+    .header { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: white; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .header h1 { font-size: 1.1rem; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: white; color: #374151; border: 1px solid #e2e8f0; }
+    .btn-secondary:hover { background: #f8fafc; }
+    .btn-light { background: rgba(255,255,255,0.15); color: white; }
+    .btn-light:hover { background: rgba(255,255,255,0.25); }
+    .btn-danger { background: #fee2e2; color: #dc2626; border: none; }
+    .btn-danger:hover { background: #fecaca; }
+    .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+    .btn-active { background: #dbeafe !important; color: #1d4ed8 !important; border-color: #bfdbfe !important; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* TAB NAVIGATION */
+    .nav-tabs { background: white; padding: 0 24px; display: flex; gap: 4px; border-bottom: 1px solid #e2e8f0; align-items: center; }
+    .nav-tab { padding: 14px 20px; font-size: 0.88rem; font-weight: 600; color: #94a3b8; cursor: pointer; border: none; background: none; border-bottom: 3px solid transparent; transition: all 0.15s; display: flex; align-items: center; gap: 7px; }
+    .nav-tab:hover { color: #475569; }
+    .nav-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .last-updated { font-size: 0.75rem; color: #94a3b8; }
+
+    /* PAGE */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* CONTROLS */
+    .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .controls label { font-size: 0.82rem; font-weight: 500; color: #64748b; }
+    .ctrl-group { display: flex; align-items: center; gap: 8px; }
+
+    /* FORM CONTROLS */
+    select, input[type="date"] { padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; background: white; outline: none; cursor: pointer; }
+    select:focus, input[type="date"]:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+
+    /* MAIN LAYOUT */
+    .main { padding: 24px; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+
+    /* BUDGET CARDS */
+    .budget-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .budget-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+    .budget-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .card-title { font-size: 0.85rem; font-weight: 600; color: #475569; }
+    .badge { font-size: 0.72rem; padding: 3px 9px; border-radius: 999px; font-weight: 700; }
+    .badge-ok { background: #dcfce7; color: #16a34a; }
+    .badge-warn { background: #fef9c3; color: #ca8a04; }
+    .badge-over { background: #fee2e2; color: #dc2626; }
+    .badge-na { background: #f1f5f9; color: #94a3b8; }
+    .card-amount { font-size: 1.55rem; font-weight: 700; color: #0f172a; }
+    .card-sub { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; margin-bottom: 14px; }
+    .progress-track { height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .fill-ok { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .fill-warn { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .fill-over { background: linear-gradient(90deg, #ef4444, #dc2626); }
+    .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat-box { background: #f8fafc; border-radius: 8px; padding: 8px 12px; }
+    .stat-box.full { grid-column: 1 / -1; }
+    .stat-label { font-size: 0.68rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-value { font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-top: 2px; }
+    .stat-value.red { color: #dc2626; }
+
+    /* TRANSACTIONS */
+    .tx-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .tx-filters { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; padding-bottom: 18px; border-bottom: 1px solid #f1f5f9; }
+    .filter-col { display: flex; flex-direction: column; gap: 5px; }
+    .filter-col label { font-size: 0.75rem; font-weight: 600; color: #64748b; }
+    .filter-divider { width: 1px; height: 36px; background: #e2e8f0; align-self: flex-end; }
+    .tx-count { margin-left: auto; font-size: 0.78rem; color: #94a3b8; align-self: flex-end; padding-bottom: 2px; }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    thead th { padding: 12px 12px 10px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; text-align: left; border-bottom: 2px solid #f1f5f9; }
+    tbody td { padding: 11px 12px; border-bottom: 1px solid #f8fafc; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #fafbfc; }
+    tfoot td { padding: 12px; font-weight: 700; border-top: 2px solid #e2e8f0; color: #1e293b; font-size: 0.84rem; }
+    .amount-cell { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    /* CATEGORY TAGS */
+    .tag { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+    .tag-bb { background: #ede9fe; color: #7c3aed; }
+    .tag-ib { background: #fef3c7; color: #b45309; }
+    .tag-dd { background: #dbeafe; color: #1d4ed8; }
+
+    /* LOGIN SCREEN */
+    .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+    .login-card { background: white; border-radius: 20px; padding: 36px; max-width: 440px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    .login-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .login-card h2 { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+    .login-card > p { font-size: 0.84rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+    .setup-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 20px; }
+    .setup-box h3 { font-size: 0.84rem; font-weight: 700; color: #374151; margin-bottom: 10px; }
+    .setup-steps { font-size: 0.78rem; color: #64748b; line-height: 2; }
+    .setup-steps a { color: #2563eb; }
+    .setup-steps code { background: #e2e8f0; padding: 1px 5px; border-radius: 4px; font-size: 0.75rem; }
+    .client-id-wrap { margin-top: 12px; }
+    .client-id-wrap label { font-size: 0.78rem; font-weight: 600; color: #374151; display: block; margin-bottom: 5px; }
+    .client-id-input { width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; outline: none; }
+    .client-id-input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+
+    /* EMPTY / LOADING */
+    .empty { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.84rem; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(148,163,184,0.4); border-top-color: #2563eb; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+    .spinning { animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .budget-alert { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: #92400e; display: none; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: white; padding: 12px 18px; border-radius: 10px; font-size: 0.84rem; z-index: 999; box-shadow: 0 4px 16px rgba(0,0,0,0.2); animation: toastIn 0.25s ease; max-width: 320px; }
+    @keyframes toastIn { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @media (max-width: 640px) {
+      .main { padding: 16px; }
+      .budget-grid { grid-template-columns: 1fr; }
+      .header h1 { font-size: 0.95rem; }
+      .nav-tab { padding: 12px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-icon">🏠</div>
+    <h2>Dashboard Budget Rumah</h2>
+    <p>Login dengan Google untuk mengakses data spreadsheet ANALISA KEUANGAN secara live.</p>
+
+    <div class="setup-box">
+      <h3>⚙️ Setup (sekali saja)</h3>
+      <div class="setup-steps">
+        1. Buka <a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a><br>
+        2. Buat project → Enable <strong>Google Sheets API</strong><br>
+        3. Credentials → Create OAuth 2.0 Client ID → <strong>Web application</strong><br>
+        4. Di <strong>Authorized JavaScript origins</strong> daftarkan:<br>
+        &nbsp;&nbsp;&nbsp;<code id="originHint">...</code><br>
+        5. Paste Client ID di bawah:
+      </div>
+      <div class="client-id-wrap">
+        <label>Google OAuth Client ID</label>
+        <input type="text" id="clientIdInput" class="client-id-input"
+               placeholder="xxxxxxx.apps.googleusercontent.com" oninput="saveClientId()">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="signIn()" style="width:100%;justify-content:center;padding:12px">
+      🔐 Login dengan Google
+    </button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="header">
+    <h1>🏠 Dashboard Budget Rumah</h1>
+    <div class="header-right">
+      <button class="btn btn-danger btn-sm" onclick="signOut()">Keluar</button>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="nav-tab active" id="tab-budget" onclick="showPage('budget')">💰 Sisa Budget</button>
+    <button class="nav-tab" id="tab-tx" onclick="showPage('tx')">📋 Daftar Transaksi</button>
+    <div class="nav-right">
+      <span class="last-updated" id="lastUpdated"></span>
+      <button class="btn btn-secondary btn-sm" id="refreshBtn" onclick="refreshData()">
+        <span id="refreshIcon">↺</span> Refresh
+      </button>
+    </div>
+  </nav>
+
+  <!-- MENU 1: SISA BUDGET -->
+  <div class="page active" id="page-budget">
+    <div class="main">
+      <div class="controls" style="padding-bottom:18px">
+        <label>Pilih Bulan:</label>
+        <div class="ctrl-group">
+          <select id="budgetMonth" onchange="onBudgetMonthChange()"></select>
+          <select id="budgetYear" onchange="onBudgetMonthChange()"></select>
+        </div>
+      </div>
+      <div class="budget-alert" id="budgetAlert">⚠️ Data budget untuk bulan ini tidak tersedia di sheet REAL.</div>
+      <p class="section-label" id="budgetLabel">Sisa Budget</p>
+      <div class="budget-grid" id="budgetGrid"></div>
+    </div>
+  </div>
+
+  <!-- MENU 2: DAFTAR TRANSAKSI -->
+  <div class="page" id="page-tx">
+    <div class="main">
+      <p class="section-label">Daftar Transaksi</p>
+      <div class="tx-card">
+        <div class="tx-filters">
+          <div class="filter-col">
+            <label>Mode Filter</label>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-sm btn-active" id="btnModeMonth" onclick="setTxMode('month')">Per Bulan</button>
+              <button class="btn btn-secondary btn-sm" id="btnModeRange" onclick="setTxMode('range')">Rentang Tanggal</button>
+            </div>
+          </div>
+          <div class="filter-col" id="txMonthFilter">
+            <label>Bulan</label>
+            <div style="display:flex;gap:6px">
+              <select id="txMonth" onchange="renderTx()"></select>
+              <select id="txYear" onchange="renderTx()"></select>
+            </div>
+          </div>
+          <div class="filter-col" id="txRangeFilter" style="display:none">
+            <label>Dari — Hingga</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="date" id="dateFrom" onchange="renderTx()">
+              <span style="color:#cbd5e1">—</span>
+              <input type="date" id="dateTo" onchange="renderTx()">
+            </div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-col">
+            <label>Kategori</label>
+            <select id="txCat" onchange="renderTx()">
+              <option value="">Semua Kategori</option>
+              <option value="Belanja Bulanan">Belanja Bulanan</option>
+              <option value="Isi Bensin">Isi Bensin</option>
+              <option value="DAILY DRIVER">DAILY DRIVER</option>
+            </select>
+          </div>
+          <span class="tx-count" id="txCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th><th>Kategori</th><th>Keterangan</th><th>Sumber Dana</th>
+                <th style="text-align:right">Nominal</th>
+              </tr>
+            </thead>
+            <tbody id="txBody"><tr><td colspan="5"><div class="empty">Belum ada data</div></td></tr></tbody>
+            <tfoot id="txFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ────────────────────────────────────────────────
+const SHEET_ID = '1IsRwEzQ7xJdd0jpzxpGmvhBvx34CVuOElPFfyRs-5fM';
+const CATS = ['Belanja Bulanan', 'Isi Bensin', 'DAILY DRIVER'];
+const CAT_META = {
+  'Belanja Bulanan': { icon: '🛒', tag: 'tag-bb' },
+  'Isi Bensin':      { icon: '⛽', tag: 'tag-ib' },
+  'DAILY DRIVER':    { icon: '🚗', tag: 'tag-dd' },
+};
+const MONTHS_ID = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'];
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+
+// Anchor: Jun 2026 = column AI = 0-based index 34. Each month = +1 column.
+const ANCHOR_COL = 34, ANCHOR_YEAR = 2026, ANCHOR_MONTH = 6;
+// Fixed budget rows in REAL sheet (1-based): confirmed by user.
+const BUDGET_ROWS = { 'Belanja Bulanan': 35, 'Isi Bensin': 36, 'DAILY DRIVER': 46 };
+
+// ─── STATE ────────────────────────────────────────────────────
+let accessToken = null, tokenClient = null;
+let rawRealRows = [], allTx = [], budgetMap = {};
+let selBudgetMonth = new Date().getMonth() + 1;
+let selBudgetYear  = new Date().getFullYear();
+let txMode = 'month';
+
+// ─── INIT ─────────────────────────────────────────────────────
+window.onload = () => {
+  const saved = localStorage.getItem('gClientId') || '';
+  if (saved) document.getElementById('clientIdInput').value = saved;
+  document.getElementById('originHint').textContent = window.location.origin;
+  buildSelectors();
+};
+function saveClientId() { localStorage.setItem('gClientId', document.getElementById('clientIdInput').value.trim()); }
+function getClientId() { return document.getElementById('clientIdInput').value.trim() || localStorage.getItem('gClientId') || ''; }
+
+function buildSelectors() {
+  const m = new Date().getMonth() + 1, y = new Date().getFullYear();
+  const fill = (sel, isYear) => {
+    if (isYear) for (let yr = 2024; yr <= y + 1; yr++) sel.add(new Option(yr, yr, false, yr === y));
+    else MONTHS_SHORT.forEach((n, i) => sel.add(new Option(n, i + 1, false, i + 1 === m)));
+  };
+  fill(document.getElementById('budgetMonth'), false);
+  fill(document.getElementById('budgetYear'), true);
+  fill(document.getElementById('txMonth'), false);
+  fill(document.getElementById('txYear'), true);
+  document.getElementById('dateFrom').value = `${y}-${String(m).padStart(2,'0')}-01`;
+  document.getElementById('dateTo').value   = new Date(y, m, 0).toISOString().split('T')[0];
+}
+
+// ─── OAUTH ────────────────────────────────────────────────────
+function signIn() {
+  const cid = getClientId();
+  if (!cid) { toast('Masukkan Google Client ID terlebih dahulu'); return; }
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: cid,
+    scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+    callback: onToken,
+  });
+  tokenClient.requestAccessToken({ prompt: 'consent' });
+}
+function onToken(resp) {
+  if (resp.error) { toast('Login gagal: ' + resp.error); return; }
+  accessToken = resp.access_token;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  setTimeout(() => tokenClient.requestAccessToken({ prompt: '' }), (resp.expires_in - 120) * 1000);
+  loadData();
+}
+function signOut() {
+  if (accessToken) google.accounts.oauth2.revoke(accessToken, () => {});
+  accessToken = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+// ─── DATA FETCHING (LIVE) ─────────────────────────────────────
+async function fetchRange(range) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+  if (!r.ok) throw new Error(`Sheets API ${r.status}`);
+  return (await r.json()).values || [];
+}
+
+let isLoading = false;
+async function loadData() {
+  if (isLoading) return;
+  isLoading = true;
+  setRefreshing(true);
+  setLastUpdated('Memuat...');
+  try {
+    const [realRows, txRows] = await Promise.all([
+      fetchRange('REAL!A1:BZ400'),
+      fetchRange('TRANSAKSI!A1:N5000'),
+    ]);
+    rawRealRows = realRows;
+    parseTx(txRows);
+    parseBudget();
+    updateBudgetLabel();
+    renderBudgetCards();
+    renderTx();
+    setLastUpdated('Update: ' + new Date().toLocaleTimeString('id-ID'));
+  } catch (e) {
+    console.error(e);
+    toast('Gagal memuat data: ' + e.message);
+    setLastUpdated('Gagal memuat');
+  } finally {
+    isLoading = false;
+    setRefreshing(false);
+  }
+}
+function refreshData() { loadData(); }
+function setRefreshing(on) {
+  document.getElementById('refreshBtn').disabled = on;
+  document.getElementById('refreshIcon').className = on ? 'spinning' : '';
+  document.getElementById('refreshIcon').textContent = on ? '↺' : '↺';
+}
+
+// ─── PARSE TRANSACTIONS ───────────────────────────────────────
+function parseTx(rows) {
+  allTx = [];
+  if (!rows.length) return;
+  const h = rows[0].map(c => (c || '').toLowerCase().trim());
+  const find = (...keys) => { for (const k of keys) { const i = h.indexOf(k); if (i >= 0) return i; } return -1; };
+  const C = {
+    tgl:    find('tanggal'),
+    pos:    find('pos_final', 'pos biaya'),
+    ket:    find('keterangan_final', 'keterangan'),
+    nom:    find('nominal'),
+    sumber: find('sumber_dana_final', 'sumber dana'),
+    merchant: find('merchant'),
+  };
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    const pos = (r[C.pos] || '').toString().trim();
+    if (!CATS.includes(pos)) continue;
+    const date = parseSheetDate((r[C.tgl] || '').toString().trim());
+    if (!date) continue;
+    const tanggal = toISO(date);
+    const nominal = parseInt((r[C.nom] || '0').toString().replace(/[^\d-]/g, '')) || 0;
+    const merchant = C.merchant >= 0 ? (r[C.merchant] || '').toString().trim() : '';
+    const ket = C.ket >= 0 ? (r[C.ket] || '').toString().trim() : '';
+    const sumber = C.sumber >= 0 ? (r[C.sumber] || '').toString().trim() : '';
+    allTx.push({ date, tanggal, pos, keterangan: merchant || ket || '—', nominal, sumber });
+  }
+  allTx.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+}
+
+// ─── PARSE BUDGET (fixed rows + month column) ─────────────────
+function colForMonth(year, month) {
+  return ANCHOR_COL + (year - ANCHOR_YEAR) * 12 + (month - ANCHOR_MONTH);
+}
+function parseBudget() {
+  budgetMap = {};
+  const rows = rawRealRows;
+  if (!rows.length) return;
+  const targetCol = colForMonth(selBudgetYear, selBudgetMonth);
+  if (targetCol < 0) return;
+  for (const cat of CATS) {
+    const row = rows[BUDGET_ROWS[cat] - 1] || [];
+    const raw = (row[targetCol] || '').toString().replace(/[^\d-]/g, '');
+    const val = parseInt(raw);
+    if (!isNaN(val) && val > 0) budgetMap[cat] = val;
+  }
+}
+
+// ─── TAB NAVIGATION ───────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ─── BUDGET (MENU 1) ──────────────────────────────────────────
+function onBudgetMonthChange() {
+  selBudgetMonth = parseInt(document.getElementById('budgetMonth').value);
+  selBudgetYear  = parseInt(document.getElementById('budgetYear').value);
+  parseBudget();
+  updateBudgetLabel();
+  renderBudgetCards();
+}
+function updateBudgetLabel() {
+  document.getElementById('budgetLabel').textContent = `Sisa Budget — ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear}`;
+}
+function actualsForMonth(m, y) {
+  const out = {}; CATS.forEach(c => out[c] = 0);
+  const prefix = `${y}-${String(m).padStart(2,'0')}`;
+  for (const tx of allTx) if (tx.tanggal.startsWith(prefix) && out[tx.pos] !== undefined) out[tx.pos] += tx.nominal;
+  return out;
+}
+function renderBudgetCards() {
+  const actuals = actualsForMonth(selBudgetMonth, selBudgetYear);
+  document.getElementById('budgetAlert').style.display = CATS.every(c => !(c in budgetMap)) ? 'block' : 'none';
+  const grid = document.getElementById('budgetGrid');
+  grid.innerHTML = '';
+  for (const cat of CATS) {
+    const budget = budgetMap[cat] || 0;
+    const actual = actuals[cat] || 0;
+    const sisa = budget - actual;
+    const pct = budget > 0 ? Math.min(100, Math.round((actual / budget) * 100)) : null;
+    const { icon } = CAT_META[cat];
+    let fillCls = 'fill-ok', badgeCls = 'badge-ok', badgeTxt = pct + '%';
+    if (pct === null) { badgeCls = 'badge-na'; badgeTxt = 'N/A'; }
+    else if (pct >= 100) { fillCls = 'fill-over'; badgeCls = 'badge-over'; badgeTxt = 'MELEBIHI'; }
+    else if (pct >= 75) { fillCls = 'fill-warn'; badgeCls = 'badge-warn'; }
+    const card = document.createElement('div');
+    card.className = 'budget-card';
+    card.onclick = () => jumpToCategory(cat);
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-title">${icon} ${cat}</span>
+        <span class="badge ${badgeCls}">${badgeTxt}</span>
+      </div>
+      <div class="card-amount">${rp(actual)}</div>
+      <div class="card-sub">${budget > 0 ? 'dari budget ' + rp(budget) : 'realisasi (budget tidak tersedia)'}</div>
+      ${pct !== null ? `<div class="progress-track"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>` : ''}
+      <div class="card-stats">
+        ${budget > 0 ? `
+        <div class="stat-box"><div class="stat-label">Budget</div><div class="stat-value">${rp(budget)}</div></div>
+        <div class="stat-box"><div class="stat-label">Terpakai</div><div class="stat-value">${rp(actual)}</div></div>
+        <div class="stat-box full"><div class="stat-label">Sisa</div><div class="stat-value ${sisa < 0 ? 'red' : ''}">${sisa < 0 ? '−' : ''}${rp(Math.abs(sisa))}</div></div>`
+        : `<div class="stat-box full"><div class="stat-label">Total Transaksi</div><div class="stat-value">${rp(actual)}</div></div>`}
+      </div>`;
+    grid.appendChild(card);
+  }
+}
+function jumpToCategory(cat) {
+  document.getElementById('txCat').value = cat;
+  setTxMode('month');
+  document.getElementById('txMonth').value = selBudgetMonth;
+  document.getElementById('txYear').value = selBudgetYear;
+  renderTx();
+  showPage('tx');
+}
+
+// ─── TRANSAKSI (MENU 2) ───────────────────────────────────────
+function setTxMode(mode) {
+  txMode = mode;
+  document.getElementById('txMonthFilter').style.display = mode === 'month' ? 'flex' : 'none';
+  document.getElementById('txRangeFilter').style.display = mode === 'range' ? 'flex' : 'none';
+  document.getElementById('btnModeMonth').className = 'btn btn-sm' + (mode === 'month' ? ' btn-active' : ' btn-secondary');
+  document.getElementById('btnModeRange').className = 'btn btn-sm' + (mode === 'range' ? ' btn-active' : ' btn-secondary');
+  renderTx();
+}
+function renderTx() {
+  const cat = document.getElementById('txCat').value;
+  let list = allTx;
+  if (cat) list = list.filter(t => t.pos === cat);
+  if (txMode === 'month') {
+    const m = parseInt(document.getElementById('txMonth').value);
+    const y = parseInt(document.getElementById('txYear').value);
+    const prefix = `${y}-${String(m).padStart(2,'0')}`;
+    list = list.filter(t => t.tanggal.startsWith(prefix));
+  } else {
+    const from = document.getElementById('dateFrom').value;
+    const to = document.getElementById('dateTo').value;
+    if (from) list = list.filter(t => t.tanggal >= from);
+    if (to) list = list.filter(t => t.tanggal <= to);
+  }
+  document.getElementById('txCount').textContent = `${list.length} transaksi`;
+  const tbody = document.getElementById('txBody'), tfoot = document.getElementById('txFoot');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty">Tidak ada transaksi ditemukan</div></td></tr>`;
+    tfoot.innerHTML = '';
+    return;
+  }
+  let total = 0;
+  tbody.innerHTML = list.map(t => {
+    total += t.nominal;
+    const { tag } = CAT_META[t.pos];
+    return `<tr>
+      <td style="white-space:nowrap">${fmtDate(t.date)}</td>
+      <td><span class="tag ${tag}">${t.pos}</span></td>
+      <td>${esc(t.keterangan)}</td>
+      <td style="color:#94a3b8;font-size:0.78rem">${esc(t.sumber)}</td>
+      <td class="amount-cell">${rp(t.nominal)}</td>
+    </tr>`;
+  }).join('');
+  tfoot.innerHTML = `<tr><td colspan="4" style="color:#64748b;font-size:0.78rem">TOTAL (${list.length} transaksi)</td><td class="amount-cell">${rp(total)}</td></tr>`;
+}
+
+// ─── UTILS ────────────────────────────────────────────────────
+function parseSheetDate(v) {
+  if (!v) return null;
+  v = v.toString().trim();
+  let m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+  m = v.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+  if (/^\d+(\.\d+)?$/.test(v)) {
+    const d = new Date(Date.UTC(1899, 11, 30) + parseFloat(v) * 86400000);
+    if (!isNaN(d)) return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+  const d = new Date(v);
+  return isNaN(d) ? null : d;
+}
+function toISO(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function rp(n) { return n == null ? '—' : 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+function fmtDate(d) { return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }); }
+function esc(s) { return (s || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function setLastUpdated(t) { document.getElementById('lastUpdated').textContent = t; }
+function toast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 5000);
+}
+</script>
+</body>
+</html>
