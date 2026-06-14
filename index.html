@@ -108,15 +108,6 @@
     .login-icon { font-size: 2.5rem; margin-bottom: 12px; }
     .login-card h2 { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
     .login-card > p { font-size: 0.84rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
-    .setup-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 20px; }
-    .setup-box h3 { font-size: 0.84rem; font-weight: 700; color: #374151; margin-bottom: 10px; }
-    .setup-steps { font-size: 0.78rem; color: #64748b; line-height: 2; }
-    .setup-steps a { color: #2563eb; }
-    .setup-steps code { background: #e2e8f0; padding: 1px 5px; border-radius: 4px; font-size: 0.75rem; }
-    .client-id-wrap { margin-top: 12px; }
-    .client-id-wrap label { font-size: 0.78rem; font-weight: 600; color: #374151; display: block; margin-bottom: 5px; }
-    .client-id-input { width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; outline: none; }
-    .client-id-input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
 
     /* EMPTY / LOADING */
     .empty { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.84rem; }
@@ -141,27 +132,10 @@
 
 <!-- LOGIN -->
 <div id="loginScreen" class="login-screen">
-  <div class="login-card">
+  <div class="login-card" style="text-align:center">
     <div class="login-icon">🏠</div>
     <h2>Dashboard Budget Rumah</h2>
-    <p>Login dengan Google untuk mengakses data spreadsheet ANALISA KEUANGAN secara live.</p>
-
-    <div class="setup-box">
-      <h3>⚙️ Setup (sekali saja)</h3>
-      <div class="setup-steps">
-        1. Buka <a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a><br>
-        2. Buat project → Enable <strong>Google Sheets API</strong><br>
-        3. Credentials → Create OAuth 2.0 Client ID → <strong>Web application</strong><br>
-        4. Di <strong>Authorized JavaScript origins</strong> daftarkan:<br>
-        &nbsp;&nbsp;&nbsp;<code id="originHint">...</code><br>
-        5. Paste Client ID di bawah:
-      </div>
-      <div class="client-id-wrap">
-        <label>Google OAuth Client ID</label>
-        <input type="text" id="clientIdInput" class="client-id-input"
-               placeholder="xxxxxxx.apps.googleusercontent.com" oninput="saveClientId()">
-      </div>
-    </div>
+    <p>Login dengan akun Google untuk melihat data budget &amp; transaksi secara live.</p>
 
     <button class="btn btn-primary" onclick="signIn()" style="width:100%;justify-content:center;padding:12px">
       🔐 Login dengan Google
@@ -264,6 +238,8 @@
 
 <script>
 // ─── CONSTANTS ────────────────────────────────────────────────
+// Google OAuth Client ID (safe to embed: it is public, not a secret).
+const CLIENT_ID = '331110170964-vi8gdib93krg67ult8h13r0vbuljvs9k.apps.googleusercontent.com';
 const SHEET_ID = '1IsRwEzQ7xJdd0jpzxpGmvhBvx34CVuOElPFfyRs-5fM';
 const CATS = ['Belanja Bulanan', 'Isi Bensin', 'DAILY DRIVER'];
 const CAT_META = {
@@ -288,13 +264,8 @@ let txMode = 'month';
 
 // ─── INIT ─────────────────────────────────────────────────────
 window.onload = () => {
-  const saved = localStorage.getItem('gClientId') || '';
-  if (saved) document.getElementById('clientIdInput').value = saved;
-  document.getElementById('originHint').textContent = window.location.origin;
   buildSelectors();
 };
-function saveClientId() { localStorage.setItem('gClientId', document.getElementById('clientIdInput').value.trim()); }
-function getClientId() { return document.getElementById('clientIdInput').value.trim() || localStorage.getItem('gClientId') || ''; }
 
 function buildSelectors() {
   const m = new Date().getMonth() + 1, y = new Date().getFullYear();
@@ -312,14 +283,16 @@ function buildSelectors() {
 
 // ─── OAUTH ────────────────────────────────────────────────────
 function signIn() {
-  const cid = getClientId();
-  if (!cid) { toast('Masukkan Google Client ID terlebih dahulu'); return; }
+  if (typeof google === 'undefined' || !google.accounts) {
+    toast('Layanan Google belum siap, coba lagi sebentar...');
+    return;
+  }
   tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: cid,
+    client_id: CLIENT_ID,
     scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
     callback: onToken,
   });
-  tokenClient.requestAccessToken({ prompt: 'consent' });
+  tokenClient.requestAccessToken();
 }
 function onToken(resp) {
   if (resp.error) { toast('Login gagal: ' + resp.error); return; }
