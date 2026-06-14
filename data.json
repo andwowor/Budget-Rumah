@@ -1,0 +1,2590 @@
+{
+ "generatedAt": "2026-06-14 21:37",
+ "budget": {
+  "2026-06": {
+   "Belanja Bulanan": 0,
+   "Isi Bensin": 1197500,
+   "DAILY DRIVER": 1639034
+  },
+  "2026-07": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 5000000
+  },
+  "2026-08": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 5000000
+  },
+  "2026-09": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2026-10": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2026-11": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2026-12": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-01": {
+   "Belanja Bulanan": 9000000,
+   "Isi Bensin": 10797500,
+   "DAILY DRIVER": 23639034
+  },
+  "2027-03": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 5000000
+  },
+  "2027-04": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 5000000
+  },
+  "2027-05": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-06": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-07": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-08": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-09": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-10": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-11": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2027-12": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2028-01": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2028-02": {
+   "Belanja Bulanan": 1500000,
+   "Isi Bensin": 1600000,
+   "DAILY DRIVER": 3000000
+  },
+  "2028-03": {
+   "Belanja Bulanan": 18000000,
+   "Isi Bensin": 19200000,
+   "DAILY DRIVER": 40000000
+  }
+ },
+ "transaksi": [
+  {
+   "tanggal": "2026-06-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Super pel, handsoap, persembahan bocil",
+   "nominal": 110000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 92666,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 152500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transfer ke Mega",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur, ubi, kacang ijo, buah",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-09",
+   "pos": "Isi Bensin",
+   "keterangan": "Bensin Manado",
+   "nominal": 402500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Roti'O",
+   "nominal": 60000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-08",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Golden",
+   "nominal": 1261670,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-06-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transfer ke Mega",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Parkir",
+   "nominal": 14000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-06-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Persembahan boci, telur, mama lemon",
+   "nominal": 35000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Persembahan bocil, telur, mama lemon",
+   "nominal": 35000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Matcha colin",
+   "nominal": 43000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transfer ke Mega",
+   "nominal": 102500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-06-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transfer ke Mega",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 45000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 69300,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-06-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Ubi & roti tawar, air galon",
+   "nominal": 72000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Persembahan",
+   "nominal": 10000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-05-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Amplop nikahan",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-28",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 402500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nasi kuning sederhana",
+   "nominal": 62000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 42000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 43500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 52000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 31000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Amplop baptisan dan persembahan bocil",
+   "nominal": 210000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bahan tugas sekolah colin",
+   "nominal": 101100,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-21",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur, ubi, refill galon",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 70000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Refill galon",
+   "nominal": 18000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 152500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Persembahan",
+   "nominal": 150000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-15",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 60000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-15",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 402500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-15",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 487500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-15",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Hadiah seranian",
+   "nominal": 175550,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-14",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 202500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 202500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Buah, refill galon",
+   "nominal": 80000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-05-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mie",
+   "nominal": 8000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur, buah, persembahan",
+   "nominal": 80000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Roti O",
+   "nominal": 65000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-05-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nannis",
+   "nominal": 77550,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-05-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Cuci mobil",
+   "nominal": 70000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Refill galon",
+   "nominal": 12000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-05-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Ubi",
+   "nominal": 30000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 77000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Telur",
+   "nominal": 30000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-04",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Golden",
+   "nominal": 1004300,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-05-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-04",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 402500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Buah",
+   "nominal": 50000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-05-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nannis",
+   "nominal": 186900,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 12000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 95000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-26",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 120000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 133500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 120500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 23000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kosmetik mega",
+   "nominal": 190400,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-23",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 402500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 122100,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 40000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 90560,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 157300,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-16",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 10000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-16",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-16",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tugas sekolah darlene",
+   "nominal": 202500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-15",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 60000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 40000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 300000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 10000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 118700,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 150000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-07",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 50000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 50000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Warung boke",
+   "nominal": 392700,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 150000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 190000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 125000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-04-01",
+   "pos": "Belanja Bulanan",
+   "keterangan": "—",
+   "nominal": 350000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-04-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 250000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-31",
+   "pos": "Belanja Bulanan",
+   "keterangan": "—",
+   "nominal": 1000000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 50000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 10000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 160000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-28",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bakso",
+   "nominal": 214500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks mega",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 150000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 50000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 130000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks mega",
+   "nominal": 202000,
+   "sumber": "UANG SAKU"
+  },
+  {
+   "tanggal": "2026-03-16",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks mega",
+   "nominal": 103500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-15",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 300000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-15",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 202500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-03-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks mega",
+   "nominal": 103500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 202500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks mega",
+   "nominal": 53500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 102500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-08",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "KAS LAIN USAHA"
+  },
+  {
+   "tanggal": "2026-03-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 36000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "KAS LAIN USAHA"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan milo mili",
+   "nominal": 76000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 414900,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "RM Mutiara",
+   "nominal": 90000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 127500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 30000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Cella bakery",
+   "nominal": 374000,
+   "sumber": "KAS LAIN USAHA"
+  },
+  {
+   "tanggal": "2026-03-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mcd",
+   "nominal": 62500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-03-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tap cafe",
+   "nominal": 237600,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Glorius rahvana park",
+   "nominal": 75000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Glorius rahvana park",
+   "nominal": 55000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan ayam",
+   "nominal": 33000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 133600,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 5000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Holland bakery",
+   "nominal": 88000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Baju padel mega",
+   "nominal": 164600,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nyuknyang",
+   "nominal": 60000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nannis",
+   "nominal": 120000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nannis",
+   "nominal": 23000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 44300,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Molen",
+   "nominal": 20000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-27",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Bahan masak",
+   "nominal": 643576,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-26",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tinutuan",
+   "nominal": 41000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-26",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 357000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-26",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Martabak pecenongan",
+   "nominal": 135000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-26",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Obat colin darlene",
+   "nominal": 157250,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Lalapan",
+   "nominal": 44750,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 16400,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 80000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Gunting rambut andre colin",
+   "nominal": 250000,
+   "sumber": "KAS LAIN USAHA"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Warong ribs",
+   "nominal": 323000,
+   "sumber": "KAS LAIN USAHA"
+  },
+  {
+   "tanggal": "2026-02-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "New mie katan",
+   "nominal": 42500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 202000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 38200,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Warung boke",
+   "nominal": 455400,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Holland bakery",
+   "nominal": 137500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "KFC",
+   "nominal": 150500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Coto maros",
+   "nominal": 136820,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Solaria",
+   "nominal": 144101,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 146400,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bahan masak",
+   "nominal": 526289,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-21",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 415000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Pendapatan usaha ke rekening mega",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 53000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 51300,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 87000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Chuantin",
+   "nominal": 558000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 102600,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 202000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 61600,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Roti jhony",
+   "nominal": 55865,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Funifun",
+   "nominal": 301500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-17",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mcd",
+   "nominal": 70500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-14",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel mega",
+   "nominal": 74000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 102000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 37800,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-13",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 340000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 40900,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 20000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-12",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bahan masak mega",
+   "nominal": 290892,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 300000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan milo",
+   "nominal": 40000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Game",
+   "nominal": 36000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Obat colin darlene",
+   "nominal": 62926,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Molen",
+   "nominal": 20000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-10",
+   "pos": "DAILY DRIVER",
+   "keterangan": "New mie katan",
+   "nominal": 76950,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mawar sharon",
+   "nominal": 112455,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Martabak nagih",
+   "nominal": 97201,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Hapa kitchen",
+   "nominal": 453370,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Game",
+   "nominal": 10900,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-07",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 435000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 58300,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Duta minang",
+   "nominal": 136400,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tarik tunai",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Harvest",
+   "nominal": 125500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Ovo",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 52000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Roti dan snack",
+   "nominal": 183400,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 69400,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 53200,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bakso goyang lidah",
+   "nominal": 100100,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-04",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 30000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-04",
+   "pos": "Belanja Bulanan",
+   "keterangan": "—",
+   "nominal": 1448775,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 63750,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Marugame",
+   "nominal": 218000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mister donut",
+   "nominal": 119000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-03",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Masker",
+   "nominal": 63500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Nasi kuning",
+   "nominal": 25000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-02-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 146300,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-02-01",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 335000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-02-01",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Lalapan mas jawi",
+   "nominal": 46800,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Grab",
+   "nominal": 21000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Grab",
+   "nominal": 22000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Pasir milo",
+   "nominal": 55000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "KFC",
+   "nominal": 70000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mie gacoan",
+   "nominal": 56803,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-31",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Martabak nagih",
+   "nominal": 63600,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Sabun cuci tangan",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Sabun cuci piring",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "Belanja Bulanan",
+   "keterangan": "Sabun pel",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 72000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kios mas gode",
+   "nominal": 52750,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-30",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Pecenongan",
+   "nominal": 156000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kebutuhan sekolah Colin",
+   "nominal": 20500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Solaria",
+   "nominal": 246000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kebutuhan sekolah Colin",
+   "nominal": 15500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kebutuhan sekolah Colin",
+   "nominal": 41500,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Fore",
+   "nominal": 142000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan ayam",
+   "nominal": 41000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 47000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 20500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 210000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 30000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-28",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Coto Maros",
+   "nominal": 83550,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 47000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Rumah plat nomor",
+   "nominal": 75000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 23700,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 426800,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Jco",
+   "nominal": 130000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 98600,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-26",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Baju mega",
+   "nominal": 421855,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 151400,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Dabu dabu bakar rica",
+   "nominal": 249700,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bioskop",
+   "nominal": 98000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan",
+   "nominal": 27000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Pepper Lunch",
+   "nominal": 279109,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Skincare Mega",
+   "nominal": 375860,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bioskop",
+   "nominal": 210000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 95700,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Dcrepes",
+   "nominal": 119001,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Warung boke",
+   "nominal": 146300,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 300000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan",
+   "nominal": 40250,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Casing Mega",
+   "nominal": 197674,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transport",
+   "nominal": 60000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Refill galon",
+   "nominal": 12000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Misoa",
+   "nominal": 143000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-23",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Misoa",
+   "nominal": 110000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-22",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Ta wan",
+   "nominal": 472324,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Mainan colin darlene",
+   "nominal": 34000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Transport",
+   "nominal": 36000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "KFC Mega",
+   "nominal": 106000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Gunting rambut",
+   "nominal": 350000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 202000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-21",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Ribs",
+   "nominal": 287000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Padel Mega",
+   "nominal": 93600,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Martabak",
+   "nominal": 141000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kawan baru",
+   "nominal": 111000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Starbucks",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Snack",
+   "nominal": 39400,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Pizza",
+   "nominal": 188052,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Solaria",
+   "nominal": 257000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Baju Darlene",
+   "nominal": 110000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Makanan",
+   "nominal": 28000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 366200,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Kebutuhan Mega",
+   "nominal": 122500,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bioskop",
+   "nominal": 90000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Brizzi",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-18",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-13",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 380000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2026-01-11",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 25000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 60000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Top up starbucks",
+   "nominal": 203500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 85000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-08",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 0,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Bulu mata Mega",
+   "nominal": 387500,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "Belanja Bulanan",
+   "keterangan": "—",
+   "nominal": 1500000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 800000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-05",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 402000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2026-01-02",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 1000000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-27",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 85000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-27",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 300000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-24",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Colin Darlene",
+   "nominal": 150000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-21",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 400000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Petasan",
+   "nominal": 223000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Amplop acara",
+   "nominal": 200000,
+   "sumber": "LAIN-LAIN"
+  },
+  {
+   "tanggal": "2025-12-20",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 150000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-16",
+   "pos": "DAILY DRIVER",
+   "keterangan": "Tiket nonton Mega",
+   "nominal": 150000,
+   "sumber": "KARTU KREDIT"
+  },
+  {
+   "tanggal": "2025-12-09",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-07",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 1400000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-07",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 490000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-12-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 800000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2025-12-06",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 210000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2025-12-02",
+   "pos": "Belanja Bulanan",
+   "keterangan": "—",
+   "nominal": 1500000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2025-12-01",
+   "pos": "Isi Bensin",
+   "keterangan": "—",
+   "nominal": 200000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2025-11-29",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "THR/CUTI (SALDO BERGERAK)"
+  },
+  {
+   "tanggal": "2025-11-25",
+   "pos": "Isi Bensin",
+   "keterangan": "Bensin Manado",
+   "nominal": 600000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-11-25",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 100000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-11-22",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 1000000,
+   "sumber": "PENDAPATAN USAHA"
+  },
+  {
+   "tanggal": "2025-11-19",
+   "pos": "DAILY DRIVER",
+   "keterangan": "—",
+   "nominal": 500000,
+   "sumber": "PENDAPATAN USAHA"
+  }
+ ]
+}
