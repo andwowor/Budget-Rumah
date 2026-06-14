@@ -457,11 +457,12 @@ function renderBudgetCards() {
     const actual = actuals[cat] || 0;
     // Sisa comes straight from the REAL sheet; fall back to budget−terpakai if absent.
     const sisa = (cat in sisaMap) ? sisaMap[cat] : (budget - actual);
-    const pct = budget > 0 ? Math.min(100, Math.round((actual / budget) * 100)) : null;
+    const pct = budget > 0 ? Math.round((actual / budget) * 100) : null;  // real %, not capped
+    const barPct = pct === null ? 0 : Math.min(100, pct);                 // progress bar width
     const { icon } = CAT_META[cat];
     let fillCls = 'fill-ok', badgeCls = 'badge-ok', badgeTxt = pct + '%';
     if (pct === null) { badgeCls = 'badge-na'; badgeTxt = 'N/A'; }
-    else if (pct >= 100) { fillCls = 'fill-over'; badgeCls = 'badge-over'; badgeTxt = 'MELEBIHI'; }
+    else if (pct > 100) { fillCls = 'fill-over'; badgeCls = 'badge-over'; badgeTxt = 'MELEBIHI'; }
     else if (pct >= 75) { fillCls = 'fill-warn'; badgeCls = 'badge-warn'; }
     const card = document.createElement('div');
     card.className = 'budget-card';
@@ -473,7 +474,7 @@ function renderBudgetCards() {
       </div>
       <div class="card-amount">${rp(actual)}</div>
       <div class="card-sub">${budget > 0 ? 'dari budget ' + rp(budget) : 'realisasi (budget tidak tersedia)'}</div>
-      ${pct !== null ? `<div class="progress-track"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>` : ''}
+      ${pct !== null ? `<div class="progress-track"><div class="progress-fill ${fillCls}" style="width:${barPct}%"></div></div>` : ''}
       <div class="card-stats">
         ${budget > 0 ? `
         <div class="stat-box"><div class="stat-label">Budget</div><div class="stat-value">${rp(budget)}</div></div>
