@@ -159,6 +159,7 @@
   <header class="header">
     <h1>🏠 Dashboard Budget Rumah</h1>
     <div class="header-right">
+      <button class="btn btn-light btn-sm" id="installBtn" onclick="installApp()" style="display:none">⬇️ Install App</button>
       <button class="btn btn-danger btn-sm" onclick="signOut()">Keluar</button>
     </div>
   </header>
@@ -585,6 +586,31 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW gagal:', err));
   });
 }
+
+// ─── PWA: in-app install button (Chrome desktop & Android) ────
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();                 // stop Chrome's default mini-infobar
+  deferredPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+async function installApp() {
+  if (!deferredPrompt) {
+    toast('Gunakan menu browser ⋮ → "Install" untuk memasang aplikasi.');
+    return;
+  }
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBtn').style.display = 'none';
+}
+// Hide the button once installed.
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'none';
+  deferredPrompt = null;
+});
 </script>
 </body>
 </html>
