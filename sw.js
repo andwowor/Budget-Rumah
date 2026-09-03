@@ -2,7 +2,7 @@
 // Network-first so the app always loads the latest code; if offline,
 // fall back to a cached copy of the shell (no financial data is cached,
 // since live data is fetched per-session from the Google Sheets API).
-const CACHE = 'budget-rumah-v1';
+const CACHE = 'budget-rumah-v2';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
