@@ -220,6 +220,7 @@
     .stat-label { font-size: 0.68rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
     .stat-value { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-top: 2px; font-variant-numeric: tabular-nums; }
     .stat-value.red { color: var(--critical-ink); }
+    .card-note { font-size: 0.72rem; color: var(--text-faint); margin-top: 10px; }
 
     .badge { font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
     .badge-ok { background: var(--good-soft); color: var(--good-ink); }
@@ -544,7 +545,7 @@ const LS = { token: 'br_token', theme: 'br_theme', basis: 'br_basis' };
 let accessToken = null, tokenExpiry = 0, tokenClient = null, authPending = null;
 let tabTitles = {};                       // resolved real tab names
 let rawSisaRows = [], rawBudgetRows = [], allTx = [];
-let budgetMap = {}, sisaMap = {}, mapNotes = [];
+let budgetMap = {}, sisaMap = {}, usedMap = {}, mapNotes = [];
 let hasBudgetBasis = false, txWithoutBudgetMonth = 0;
 let monthBasis = 'budget';                // 'budget' | 'date'
 let selBudgetMonth = new Date().getMonth() + 1;
@@ -849,28 +850,54 @@ function buildMonthColumns(rows) {
   }
   return map;
 }
+// One index per fetched sheet: month columns and category rows, built once.
+const sheetMemo = new WeakMap();
+function sheetIndex(rows) {
+  let ix = sheetMemo.get(rows);
+  if (!ix) { ix = { cols: buildMonthColumns(rows), rows: {} }; sheetMemo.set(rows, ix); }
+  return ix;
+}
 function monthColumn(rows, year, month) {
-  const col = buildMonthColumns(rows)[year + '-' + month];
+  const col = sheetIndex(rows).cols[year + '-' + month];
   if (col !== undefined) return { col, exact: true };
   const guess = COL_FALLBACK.col + (year - COL_FALLBACK.year) * 12 + (month - COL_FALLBACK.month);
   return { col: guess >= 0 ? guess : null, exact: false };
 }
 // Category rows are labelled in one of the first columns (A–D).
 function categoryRow(rows, label) {
+  const ix = sheetIndex(rows);
+  if (label in ix.rows) return ix.rows[label];
   const target = norm(label);
-  for (let r = 0; r < rows.length; r++) {
+  let found = -1;
+  outer: for (let r = 0; r < rows.length; r++) {
     const row = rows[r] || [];
-    for (let c = 0; c < 4 && c < row.length; c++) if (norm(row[c]) === target) return r;
+    for (let c = 0; c < 4 && c < row.length; c++) if (norm(row[c]) === target) { found = r; break outer; }
   }
-  return -1;
+  ix.rows[label] = found;
+  return found;
 }
+// Budget − Sisa for one category in one month, straight from REKAP/REAL.
+// null when either figure is missing, so callers can fall back.
+function sheetUsed(catName, m, y) {
+  if (!rawBudgetRows.length || !rawSisaRows.length) return null;
+  const b = cellNum(rawBudgetRows, categoryRow(rawBudgetRows, catName), monthColumn(rawBudgetRows, y, m).col);
+  const sv = cellNum(rawSisaRows, categoryRow(rawSisaRows, catName), monthColumn(rawSisaRows, y, m).col);
+  return (b !== null && b > 0 && sv !== null) ? b - sv : null;
+}
+// Reads a number the way the sheet shows it: "1.180.000", "Rp 1.180.000",
+// "(250.000)" or "-250.000" for negatives, "1.234,50" with a decimal part.
+// An empty cell or a bare "-" means "no figure" and returns null.
 function cellNum(rows, rowIdx, col) {
   if (rowIdx < 0 || col == null) return null;
   const row = rows[rowIdx] || [];
-  const raw = (row[col] == null ? '' : String(row[col])).replace(/[^\d-]/g, '');
-  if (raw === '' || raw === '-') return null;
-  const val = parseInt(raw, 10);
-  return isNaN(val) ? null : val;
+  let t = (row[col] == null ? '' : String(row[col])).trim();
+  if (!t) return null;
+  const neg = /^\(.*\)$/.test(t) || /^(rp\.?\s*)?[-−]\s*\d/i.test(t);
+  t = t.replace(/,\d{1,2}$/, '');
+  const digits = t.replace(/[^\d]/g, '');
+  if (!digits) return null;
+  const val = parseInt(digits, 10);
+  return isNaN(val) ? null : (neg ? -val : val);
 }
 
 // ─── PARSE TRANSACTIONS ───────────────────────────────────────
@@ -918,7 +945,7 @@ function parseTx(rows) {
 
 // ─── PARSE BUDGET ─────────────────────────────────────────────
 function parseBudget() {
-  budgetMap = {}; sisaMap = {}; mapNotes = [];
+  budgetMap = {}; sisaMap = {}; usedMap = {}; mapNotes = [];
   if (!rawBudgetRows.length && !rawSisaRows.length) return;
   const bCol = monthColumn(rawBudgetRows, selBudgetYear, selBudgetMonth);
   const sCol = monthColumn(rawSisaRows, selBudgetYear, selBudgetMonth);
@@ -934,6 +961,8 @@ function parseBudget() {
     if (b !== null && b > 0) budgetMap[cat.name] = b;
     const s = cellNum(rawSisaRows, sr, sCol.col);
     if (s !== null) sisaMap[cat.name] = s;
+    // Terpakai is the sheet's own arithmetic, so the three figures always agree.
+    if (b !== null && b > 0 && s !== null) usedMap[cat.name] = b - s;
   }
   if (missing.length) {
     mapNotes.push(`Tidak ada baris <b>${missing.map(esc).join(', ')}</b> di sheet ${esc(TAB.budget)}/${esc(TAB.sisa)} — kartu itu hanya menampilkan realisasi transaksi, tanpa budget dan sisa.`);
@@ -996,8 +1025,8 @@ function updateBudgetLabel() {
   document.getElementById('budgetLabel').textContent = `Sisa Budget — ${period}`;
   document.getElementById('summaryLabel').textContent = `Ringkasan — ${period}`;
   document.getElementById('basisHint').innerHTML =
-    `Terpakai dihitung dari transaksi yang <b>${esc(basisLabel())}</b>-nya ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear}. ` +
-    `Daftar Transaksi memakai dasar yang sama, jadi totalnya selalu cocok.`;
+    `<b>Terpakai = Budget − Sisa</b>, keduanya dari sheet ${esc(TAB.budget)} dan ${esc(TAB.sisa)}, jadi ketiga angka di kartu selalu konsisten. ` +
+    `Bila salah satunya kosong di sheet, Terpakai dihitung dari Daftar Transaksi (dasar <b>${esc(basisLabel())}</b>).`;
 }
 function renderNotes() {
   const notes = mapNotes.slice();
@@ -1012,6 +1041,9 @@ function renderNotes() {
   alertEl.innerHTML = `⚠️ Tidak ada angka budget untuk ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear} di sheet ${esc(TAB.budget)}.`;
   alertEl.classList.toggle('show', noBudget && rawBudgetRows.length > 0);
 }
+// "Terpakai" prefers Budget − Sisa from the sheet; the transaction sum is
+// only used when the sheet has no figure for that category this month.
+function usedFor(catName, txSum) { return (catName in usedMap) ? usedMap[catName] : txSum; }
 function actualsForMonth(m, y) {
   const out = {}; CATS.forEach(c => out[c] = 0);
   for (const tx of allTx) if (out[tx.pos] !== undefined && inSelectedMonth(tx, m, y)) out[tx.pos] += tx.nominal;
@@ -1021,11 +1053,12 @@ function renderSummary() {
   const actuals = actualsForMonth(selBudgetMonth, selBudgetYear);
   let budget = 0, used = 0, sisa = 0, hasBudget = false;
   for (const cat of CATS) {
-    used += actuals[cat] || 0;
+    const u = usedFor(cat, actuals[cat] || 0);
+    used += u;
     if (cat in budgetMap) {
       hasBudget = true;
       budget += budgetMap[cat];
-      sisa += (cat in sisaMap) ? sisaMap[cat] : (budgetMap[cat] - (actuals[cat] || 0));
+      sisa += (cat in sisaMap) ? sisaMap[cat] : (budgetMap[cat] - u);
     }
   }
   const pct = budget > 0 ? Math.round((used / budget) * 100) : null;
@@ -1048,8 +1081,10 @@ function renderBudgetCards() {
   for (const cat of CATEGORIES) {
     const name = cat.name;
     const budget = budgetMap[name] || 0;
-    const actual = actuals[name] || 0;
+    const txSum = actuals[name] || 0;
+    const actual = usedFor(name, txSum);
     const sisa = (name in sisaMap) ? sisaMap[name] : (budget - actual);
+    const fromSheet = name in usedMap;
     const pct = budget > 0 ? Math.round((actual / budget) * 100) : null;
     const barPct = pct === null ? 0 : Math.min(100, pct);
     let fillCls = 'fill-ok', badgeCls = 'badge-ok', badgeTxt = pct + '%';
@@ -1074,7 +1109,8 @@ function renderBudgetCards() {
         <div class="stat-box"><div class="stat-label">Terpakai</div><div class="stat-value">${rp(actual)}</div></div>
         <div class="stat-box full"><div class="stat-label">Sisa</div><div class="stat-value ${sisa < 0 ? 'red' : ''}">${sisa < 0 ? '−' : ''}${rp(Math.abs(sisa))}</div></div>`
         : `<div class="stat-box full"><div class="stat-label">Total Transaksi</div><div class="stat-value">${rp(actual)}</div></div>`}
-      </div>`;
+      </div>
+      ${fromSheet && txSum !== actual ? `<div class="card-note">Daftar Transaksi mencatat ${rp(txSum)} untuk bulan ini</div>` : ''}`;
     grid.appendChild(card);
   }
 }
@@ -1150,6 +1186,8 @@ function monthlySeries(n) {
     const m = d.getMonth() + 1, y = d.getFullYear();
     const values = {}; CATS.forEach(c => values[c] = 0);
     for (const tx of allTx) if (values[tx.pos] !== undefined && inSelectedMonth(tx, m, y)) values[tx.pos] += tx.nominal;
+    // Same source as the cards: Budget − Sisa from the sheet when available.
+    for (const c of CATS) { const u = sheetUsed(c, m, y); if (u !== null) values[c] = u; }
     out.push({ m, y, label: `${MONTHS_SHORT[m - 1]} ${String(y).slice(2)}`, values });
   }
   return out;
@@ -1170,7 +1208,7 @@ function renderTrend() {
   const host = document.getElementById('trendChart');
   const tip = document.getElementById('trendTip');
   document.getElementById('trendDesc').textContent =
-    `Total per kategori tiap bulan, berdasarkan ${basisLabel()}. Arahkan kursor (atau sentuh) untuk melihat angkanya.`;
+    `Terpakai per kategori tiap bulan (Budget − Sisa dari sheet ${TAB.budget}/${TAB.sisa}; bulan tanpa angka di sheet memakai Daftar Transaksi, dasar ${basisLabel()}). Arahkan kursor atau sentuh untuk melihat angkanya.`;
   const max = Math.max(0, ...data.map(d => Math.max(...CATS.map(c => d.values[c] || 0))));
   if (max <= 0) {
     host.innerHTML = '<div class="empty">Belum ada transaksi pada 12 bulan terakhir</div>';
@@ -1267,12 +1305,14 @@ function toggleTrendTable() {
   document.getElementById('trendTableBtn').textContent = shown ? 'Sembunyikan tabel' : 'Lihat tabel';
 }
 function renderComposition() {
-  const actuals = actualsForMonth(selBudgetMonth, selBudgetYear);
+  // Same Terpakai as the cards: sheet Budget − Sisa, transaction sum as fallback.
+  const txSums = actualsForMonth(selBudgetMonth, selBudgetYear);
+  const actuals = {}; CATS.forEach(c => actuals[c] = usedFor(c, txSums[c] || 0));
   const total = CATS.reduce((s, c) => s + (actuals[c] || 0), 0);
   document.getElementById('compDesc').textContent =
-    `Porsi tiap kategori pada ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear} (dasar ${basisLabel()}).`;
+    `Porsi Terpakai tiap kategori pada ${MONTHS_ID[selBudgetMonth - 1]} ${selBudgetYear}, angka yang sama dengan kartu di Sisa Budget.`;
   const host = document.getElementById('compChart');
-  if (total <= 0) { host.innerHTML = '<div class="empty">Belum ada transaksi pada bulan ini</div>'; return; }
+  if (total <= 0) { host.innerHTML = '<div class="empty">Belum ada pengeluaran pada bulan ini</div>'; return; }
   const bar = CATEGORIES.filter(c => (actuals[c.name] || 0) > 0).map(c =>
     `<div class="stack-seg" style="background:var(--series-${c.slot});flex:${actuals[c.name]}" title="${esc(c.name)}"></div>`).join('');
   const rows = CATEGORIES.map(c => {
