@@ -364,8 +364,8 @@
     <div class="login-icon">🏠</div>
     <h2>Dashboard Budget Rumah</h2>
     <p id="loginMsg">Masuk untuk membuka data budget rumah.</p>
-    <!-- Username + password (dipakai bila API_URL terisi) -->
-    <form id="credForm" class="login-form" style="display:none" onsubmit="event.preventDefault(); credSignIn();" autocomplete="on">
+    <!-- Username + password, diperiksa oleh Apps Script (apps-script/Code.gs) -->
+    <form id="credForm" class="login-form" onsubmit="event.preventDefault(); credSignIn();" autocomplete="on">
       <label for="loginUser">Username</label>
       <input class="login-input" id="loginUser" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required>
       <label for="loginPass">Password</label>
@@ -376,10 +376,6 @@
       <div class="login-error" id="loginError" role="alert"></div>
       <button type="submit" class="btn btn-primary" id="credBtn" style="width:100%;justify-content:center;padding:12px">Masuk</button>
     </form>
-    <!-- Google (cadangan selama API_URL kosong) -->
-    <button class="btn btn-primary" id="googleBtn" onclick="signIn()" style="width:100%;justify-content:center;padding:12px;display:none">
-      Masuk
-    </button>
     <div class="login-actions">
       <button class="btn btn-secondary btn-sm" id="installBtnLogin" onclick="installApp()" style="display:none">⬇️ Install App</button>
       <button class="btn btn-secondary btn-icon" id="themeBtnLogin" onclick="toggleTheme()" title="Ganti tema">🌙</button>
@@ -573,14 +569,10 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
-// Alamat Web App Google Apps Script (apps-script/Code.gs). Bila terisi,
-// layar masuk memakai username + password; bila kosong, masuk lewat Google.
-const API_URL = '';
-
-// Google OAuth Client ID (safe to embed: it is public, not a secret).
-const CLIENT_ID = '331110170964-vi8gdib93krg67ult8h13r0vbuljvs9k.apps.googleusercontent.com';
-const SHEET_ID = '1IsRwEzQ7xJdd0jpzxpGmvhBvx34CVuOElPFfyRs-5fM';
-const SCOPE = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+// Web App Google Apps Script (apps-script/Code.gs): checks the username +
+// password, issues a 30-day session token and reads the sheets. Not a
+// secret — it only answers to a valid password or token.
+const API_URL = 'https://script.google.com/macros/s/AKfycbzjjfLmGozAB7_pTRgaMU9m1k0eNDN9lOWse_pJcSndU1zxnhHeOe-2KzTAog35z7NX5Q/exec';
 
 // Tab names in the spreadsheet. Resolved case-insensitively against the
 // real tab list, so renaming REKAP -> Rekap keeps working.
@@ -606,12 +598,10 @@ const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt
 const MONTH_TOKENS = { JAN:1, FEB:2, MAR:3, MRT:3, APR:4, MEI:5, MAY:5, JUN:6, JUL:7,
                        AGU:8, AGS:8, AGT:8, AUG:8, SEP:9, OKT:10, OCT:10, NOP:11, NOV:11, DES:12, DEC:12 };
 
-const LS = { token: 'br_token', session: 'br_session', theme: 'br_theme', basis: 'br_basis' };
+const LS = { session: 'br_session', theme: 'br_theme', basis: 'br_basis', legacyGoogleToken: 'br_token' };
 
 // ─── STATE ────────────────────────────────────────────────────
-let accessToken = null, tokenExpiry = 0, tokenClient = null, authPending = null;
-let session = null;                       // { token, expiry } in username/password mode
-let tabTitles = {};                       // resolved real tab names
+let session = null;                       // { token, expiry } from the Apps Script login
 let rawSisaRows = [], rawBudgetRows = [], allTx = [];
 let budgetMap = {}, sisaMap = {}, usedMap = {}, mapNotes = [];
 let hasBudgetBasis = false, txWithoutBudgetMonth = 0;
@@ -649,30 +639,11 @@ async function boot() {
   buildCategoryUI();
   try { const b = localStorage.getItem(LS.basis); if (b === 'budget' || b === 'date') monthBasis = b; } catch (e) {}
   syncBasisUI();
-  document.getElementById('credForm').style.display = API_URL ? 'flex' : 'none';
-  document.getElementById('googleBtn').style.display = API_URL ? 'none' : 'inline-flex';
+  try { localStorage.removeItem(LS.legacyGoogleToken); } catch (e) {}   // left over from Google sign-in
 
-  if (API_URL) {
-    // Username + password mode: a stored 30-day session opens straight in.
-    session = readSession();
-    if (session) { enterApp(); loadData(); return; }
-    showLogin();
-    return;
-  }
-  loadGis();
-
-  // 1. A stored session means straight into the dashboard, no click.
-  const saved = readSavedToken();
-  if (saved) {
-    accessToken = saved.token; tokenExpiry = saved.expiry;
-    enterApp(); loadData();
-    return;
-  }
-  // 2. Otherwise try a silent sign-in (no account picker when Google
-  //    already has a session and the app was authorised before).
-  if (await waitForGis(6000)) {
-    try { await requestToken(true); enterApp(); loadData(); return; } catch (e) { /* fall through */ }
-  }
+  // A stored 30-day session opens straight into the dashboard.
+  session = readSession();
+  if (session) { enterApp(); loadData(); return; }
   showLogin();
 }
 
@@ -760,105 +731,10 @@ function togglePw() {
   el.type = el.type === 'password' ? 'text' : 'password';
 }
 
-// ─── AUTH: GOOGLE (cadangan selama API_URL kosong) ────────────
-function loadGis() {
-  if (document.getElementById('gisScript')) return;
-  const sc = document.createElement('script');
-  sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true; sc.id = 'gisScript';
-  document.head.appendChild(sc);
-}
-function waitForGis(timeoutMs) {
-  return new Promise(resolve => {
-    const t0 = Date.now();
-    (function poll() {
-      if (window.google && google.accounts && google.accounts.oauth2) return resolve(true);
-      if (Date.now() - t0 > timeoutMs) return resolve(false);
-      setTimeout(poll, 120);
-    })();
-  });
-}
-function getTokenClient() {
-  if (tokenClient) return tokenClient;
-  if (!(window.google && google.accounts && google.accounts.oauth2)) return null;
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPE,
-    callback: (resp) => {
-      const p = authPending; authPending = null;
-      if (resp && resp.access_token) {
-        accessToken = resp.access_token;
-        tokenExpiry = Date.now() + (parseInt(resp.expires_in) || 3600) * 1000;
-        saveToken();
-        if (p) p.resolve(resp);
-      } else if (p) p.reject(new Error((resp && resp.error) || 'no-token'));
-    },
-    error_callback: (err) => {
-      const p = authPending; authPending = null;
-      if (p) p.reject(new Error((err && err.type) || 'auth-failed'));
-    },
-  });
-  return tokenClient;
-}
-// silent = true asks Google for a token without showing anything.
-// Always settles: Google not answering must never leave the app hanging.
-function requestToken(silent) {
-  return new Promise((resolve, reject) => {
-    const client = getTokenClient();
-    if (!client) return reject(new Error('gis-not-ready'));
-    if (authPending) { const prev = authPending; authPending = null; prev.reject(new Error('superseded')); }
-    let settled = false;
-    const entry = {
-      resolve: (v) => { if (settled) return; settled = true; clearTimeout(timer); if (authPending === entry) authPending = null; resolve(v); },
-      reject:  (e) => { if (settled) return; settled = true; clearTimeout(timer); if (authPending === entry) authPending = null; reject(e); },
-    };
-    const timer = setTimeout(() => entry.reject(new Error('timeout')), silent ? 6000 : 120000);
-    authPending = entry;
-    try { client.requestAccessToken(silent ? { prompt: '' } : {}); }
-    catch (e) { entry.reject(e); }
-  });
-}
-function saveToken() {
-  try { localStorage.setItem(LS.token, JSON.stringify({ token: accessToken, expiry: tokenExpiry })); } catch (e) {}
-}
-function readSavedToken() {
-  try {
-    const raw = localStorage.getItem(LS.token);
-    if (!raw) return null;
-    const v = JSON.parse(raw);
-    if (v && v.token && v.expiry && v.expiry - Date.now() > 120000) return v;
-    localStorage.removeItem(LS.token);
-  } catch (e) {}
-  return null;
-}
-function clearToken() { accessToken = null; tokenExpiry = 0; try { localStorage.removeItem(LS.token); } catch (e) {} }
-
-async function signIn() {
-  loadGis();
-  const msg = document.getElementById('loginMsg');
-  if (!(await waitForGis(8000))) { msg.textContent = 'Layanan Google belum siap. Periksa koneksi lalu coba lagi.'; return; }
-  msg.textContent = 'Menghubungkan ke Google…';
-  try {
-    try { await requestToken(true); }   // no picker when Google already knows you
-    catch (e) { await requestToken(false); }
-    enterApp(); loadData();
-  } catch (e) {
-    msg.textContent = 'Gagal masuk: ' + e.message + '. Coba tekan Masuk sekali lagi.';
-  }
-}
 function signOut() {
-  if (API_URL) {
-    clearSession();
-    document.getElementById('loginError').textContent = '';
-    showLogin('Masuk untuk membuka data budget rumah.');
-    return;
-  }
-  if (accessToken && window.google && google.accounts && google.accounts.oauth2) {
-    google.accounts.oauth2.revoke(accessToken, () => {});
-  }
-  clearToken();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('loginMsg').textContent = 'Tekan Masuk untuk membuka data budget rumah.';
-  showLogin();
+  clearSession();
+  document.getElementById('loginError').textContent = '';
+  showLogin('Masuk untuk membuka data budget rumah.');
 }
 function enterApp() {
   document.getElementById('bootScreen').style.display = 'none';
@@ -873,89 +749,38 @@ function showLogin(message) {
   if (message) document.getElementById('loginMsg').textContent = message;
   updateInstallButtons();
 }
-// Keep the token usable even after the OS froze our timers in the background.
-async function ensureToken() {
-  if (API_URL) return !!session && session.expiry > Date.now();
-  if (accessToken && Date.now() < tokenExpiry - 120000) return true;
-  if (!(await waitForGis(8000))) return false;
-  try { await requestToken(true); return true; } catch (e) { return false; }
-}
+function hasSession() { return !!session && session.expiry > Date.now(); }
+// The OS can keep the app open for days in the background: re-check on return.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;
   if (document.getElementById('app').style.display === 'none') return;
-  if (API_URL) { if (!session || session.expiry <= Date.now()) { clearSession(); showLogin('Sesi berakhir. Silakan masuk lagi.'); } return; }
-  if (Date.now() > tokenExpiry - 120000) ensureToken().then(ok => { if (ok) loadData(); });
+  if (!hasSession()) { clearSession(); showLogin('Sesi berakhir. Silakan masuk lagi.'); }
 });
 
-// ─── SHEETS API ───────────────────────────────────────────────
-async function sheetsGet(path) {
-  const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}${path}`,
-                        { headers: { Authorization: `Bearer ${accessToken}` } });
-  if (r.status === 401 || r.status === 403) { const e = new Error('unauthorized'); e.authError = true; throw e; }
-  if (!r.ok) throw new Error(`Sheets API ${r.status}`);
-  return r.json();
-}
-async function fetchTabTitles() {
-  const j = await sheetsGet('?fields=sheets.properties.title');
-  const titles = (j.sheets || []).map(s => s.properties.title);
-  const resolved = {}, missing = [];
-  for (const key of Object.keys(TAB)) {
-    const want = TAB[key].toLowerCase();
-    const hit = titles.find(t => t.trim().toLowerCase() === want);
-    if (hit) resolved[key] = hit; else missing.push(TAB[key]);
-  }
-  if (missing.length) throw new Error(`Sheet ${missing.join(', ')} tidak ditemukan. Sheet yang ada: ${titles.join(', ')}`);
-  return resolved;
-}
-async function fetchRange(range) {
-  const j = await sheetsGet(`/values/${encodeURIComponent(range)}`);
-  return j.values || [];
-}
-
-async function loadData(retried) {
+async function loadData() {
   if (isLoading) return;
   isLoading = true;
   setRefreshing(true);
   setLastUpdated('Memuat...');
   try {
-    if (!(await ensureToken())) throw Object.assign(new Error('unauthorized'), { authError: true });
-    let sisaRows, budgetRows, txRows;
-    if (API_URL) {
-      const j = await apiCall({ action: 'data', token: session.token });
-      if (!j.ok) {
-        if (j.error === 'unauthorized') throw Object.assign(new Error('unauthorized'), { authError: true });
-        throw new Error(j.message || j.error);
-      }
-      ({ sisa: sisaRows, budget: budgetRows, tx: txRows } = j.tabs);
-    } else {
-      if (!tabTitles.tx) tabTitles = await fetchTabTitles();
-      [sisaRows, budgetRows, txRows] = await Promise.all([
-        fetchRange(`${tabTitles.sisa}!A1:BZ400`),
-        fetchRange(`${tabTitles.budget}!A1:BZ400`),
-        fetchRange(`${tabTitles.tx}!A1:Z5000`),
-      ]);
+    if (!hasSession()) throw Object.assign(new Error('unauthorized'), { authError: true });
+    const j = await apiCall({ action: 'data', token: session.token });
+    if (!j.ok) {
+      if (j.error === 'unauthorized') throw Object.assign(new Error('unauthorized'), { authError: true });
+      throw new Error(j.message || j.error);
     }
-    rawSisaRows = sisaRows;
-    rawBudgetRows = budgetRows;
-    parseTx(txRows);
+    rawSisaRows = j.tabs.sisa;
+    rawBudgetRows = j.tabs.budget;
+    parseTx(j.tabs.tx);
     parseBudget();
     renderAll();
     setLastUpdated('Update: ' + new Date().toLocaleTimeString('id-ID'));
   } catch (e) {
-    if (e.authError && API_URL) {
+    if (e.authError) {
       clearSession();
       showLogin('Sesi berakhir. Silakan masuk lagi.');
       return;
     }
-    if (e.authError && !retried) {
-      // Token died while the app was in the background — re-auth once, quietly.
-      clearToken();
-      isLoading = false; setRefreshing(false);
-      if (await ensureToken()) return loadData(true);
-      showLogin('Sesi Google berakhir. Tekan Masuk untuk melanjutkan.');
-      return;
-    }
-    if (e.authError) { clearToken(); showLogin('Sesi Google berakhir. Tekan Masuk untuk melanjutkan.'); return; }
     console.error(e);
     toast('Gagal memuat data: ' + e.message);
     setLastUpdated('Gagal memuat');
