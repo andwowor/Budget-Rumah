@@ -15,7 +15,6 @@
   <meta name="apple-mobile-web-app-title" content="Budget Rumah">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-  <script src="https://accounts.google.com/gsi/client" async></script>
   <style>
     /* ── DESIGN TOKENS ───────────────────────────────────────────
        Every colour lives here so light/dark swap in one place.
@@ -180,6 +179,7 @@
     .nav-tab { padding: 14px 20px; font-size: 0.88rem; font-weight: 600; color: var(--text-faint); cursor: pointer; border: none; background: none; border-bottom: 3px solid transparent; transition: color 0.15s; display: flex; align-items: center; gap: 7px; white-space: nowrap; font-family: inherit; }
     .nav-tab:hover { color: var(--text-muted); }
     .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-short { display: none; }
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
     .last-updated { font-size: 0.75rem; color: var(--text-faint); white-space: nowrap; }
 
@@ -273,6 +273,9 @@
     .grid-line { stroke: var(--grid); stroke-width: 1; }
     .axis-text { fill: var(--text-faint); font-size: 10px; font-family: inherit; }
     .series-label { fill: var(--text-muted); font-size: 10px; font-weight: 600; font-family: inherit; }
+    .axis-today { fill: var(--text-strong); font-weight: 700; }
+    .col-hover { fill: var(--surface-3); transition: opacity 0.1s; }
+    .peak-label { fill: var(--text-muted); }
     .crosshair { stroke: var(--text-faint); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
     .chart-tip { position: absolute; pointer-events: none; background: var(--text-strong); color: var(--bg); padding: 9px 12px; border-radius: 9px; font-size: 0.76rem; line-height: 1.55; box-shadow: var(--shadow-lg); opacity: 0; transition: opacity 0.12s; white-space: nowrap; z-index: 5; }
     .chart-tip b { font-weight: 700; }
@@ -295,6 +298,14 @@
     .login-card h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-strong); margin-bottom: 6px; }
     .login-card > p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
     .login-actions { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+    .login-form { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+    .login-form label { font-size: 0.76rem; font-weight: 600; color: var(--text-muted); }
+    .login-field { position: relative; }
+    .login-input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); font-size: 16px; font-family: inherit; outline: none; }
+    .login-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .login-field .login-input { padding-right: 48px; }
+    .pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: none; cursor: pointer; font-size: 1.05rem; padding: 6px 8px; color: var(--text-muted); }
+    .login-error { color: var(--critical-ink); font-size: 0.8rem; min-height: 1.1em; }
 
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinning { animation: spin 0.7s linear infinite; display: inline-block; }
@@ -307,7 +318,11 @@
       .header h1 { font-size: 0.95rem; }
       .header { padding: 12px 14px; }
       .nav-tabs { padding: 0 12px; }
-      .nav-tab { padding: 12px 12px; }
+      .nav-tab { padding: 12px 7px; gap: 4px; font-size: 0.8rem; }
+      .nav-tabs { gap: 0; }
+      .tab-long { display: none; }
+      .tab-short { display: inline; }
+      #refreshBtn { padding: 6px 9px; }
       .nav-right { gap: 8px; }
       .last-updated { display: none; }
       input[type="search"] { min-width: 0; width: 100%; }
@@ -348,8 +363,21 @@
   <div class="login-card">
     <div class="login-icon">🏠</div>
     <h2>Dashboard Budget Rumah</h2>
-    <p id="loginMsg">Tekan Masuk untuk membuka data budget rumah.</p>
-    <button class="btn btn-primary" onclick="signIn()" style="width:100%;justify-content:center;padding:12px">
+    <p id="loginMsg">Masuk untuk membuka data budget rumah.</p>
+    <!-- Username + password (dipakai bila API_URL terisi) -->
+    <form id="credForm" class="login-form" style="display:none" onsubmit="event.preventDefault(); credSignIn();" autocomplete="on">
+      <label for="loginUser">Username</label>
+      <input class="login-input" id="loginUser" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+      <label for="loginPass">Password</label>
+      <div class="login-field">
+        <input class="login-input" id="loginPass" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" class="pw-toggle" onclick="togglePw()" title="Tampilkan password" aria-label="Tampilkan password">👁</button>
+      </div>
+      <div class="login-error" id="loginError" role="alert"></div>
+      <button type="submit" class="btn btn-primary" id="credBtn" style="width:100%;justify-content:center;padding:12px">Masuk</button>
+    </form>
+    <!-- Google (cadangan selama API_URL kosong) -->
+    <button class="btn btn-primary" id="googleBtn" onclick="signIn()" style="width:100%;justify-content:center;padding:12px;display:none">
       Masuk
     </button>
     <div class="login-actions">
@@ -371,13 +399,14 @@
   </header>
 
   <nav class="nav-tabs">
-    <button class="nav-tab active" id="tab-budget" onclick="showPage('budget')">💰 Sisa Budget</button>
-    <button class="nav-tab" id="tab-tx" onclick="showPage('tx')">📋 Daftar Transaksi</button>
+    <button class="nav-tab active" id="tab-budget" onclick="showPage('budget')">💰 <span class="tab-long">Sisa Budget</span><span class="tab-short">Budget</span></button>
+    <button class="nav-tab" id="tab-tx" onclick="showPage('tx')">📋 <span class="tab-long">Daftar Transaksi</span><span class="tab-short">Transaksi</span></button>
     <button class="nav-tab" id="tab-chart" onclick="showPage('chart')">📊 Grafik</button>
+    <button class="nav-tab" id="tab-daily" onclick="showPage('daily')">📅 Harian</button>
     <div class="nav-right">
       <span class="last-updated" id="lastUpdated"></span>
       <button class="btn btn-secondary btn-sm" id="refreshBtn" onclick="refreshData()">
-        <span id="refreshIcon">↺</span> Refresh
+        <span id="refreshIcon">↺</span><span class="tab-long"> Refresh</span>
       </button>
     </div>
   </nav>
@@ -506,10 +535,48 @@
       </div>
     </div>
   </div>
+
+  <!-- MENU 4: SPEND HARIAN -->
+  <div class="page" id="page-daily">
+    <div class="main">
+      <p class="section-label" id="dailyLabel">Spend Harian</p>
+      <div class="controls" style="padding-bottom:18px">
+        <div class="ctrl-group">
+          <label>Bulan:</label>
+          <select id="dailyMonth" onchange="renderDaily()"></select>
+          <select id="dailyYear" onchange="renderDaily()"></select>
+        </div>
+        <div class="ctrl-group">
+          <label>Kategori:</label>
+          <select id="dailyCat" onchange="renderDaily()"></select>
+        </div>
+      </div>
+      <div class="summary" id="dailySummary"></div>
+      <div class="chart-card">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title" id="dailyTitle">Spend per hari</div>
+            <div class="chart-desc" id="dailyDesc"></div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="dailyTableBtn" onclick="toggleDailyTable()">Lihat tabel</button>
+        </div>
+        <div class="legend" id="dailyLegend"></div>
+        <div class="chart-wrap" id="dailyWrap">
+          <div id="dailyChart"></div>
+          <div class="chart-tip" id="dailyTip"></div>
+        </div>
+        <div class="data-table table-wrap" id="dailyTable"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
+// Alamat Web App Google Apps Script (apps-script/Code.gs). Bila terisi,
+// layar masuk memakai username + password; bila kosong, masuk lewat Google.
+const API_URL = '';
+
 // Google OAuth Client ID (safe to embed: it is public, not a secret).
 const CLIENT_ID = '331110170964-vi8gdib93krg67ult8h13r0vbuljvs9k.apps.googleusercontent.com';
 const SHEET_ID = '1IsRwEzQ7xJdd0jpzxpGmvhBvx34CVuOElPFfyRs-5fM';
@@ -539,10 +606,11 @@ const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt
 const MONTH_TOKENS = { JAN:1, FEB:2, MAR:3, MRT:3, APR:4, MEI:5, MAY:5, JUN:6, JUL:7,
                        AGU:8, AGS:8, AGT:8, AUG:8, SEP:9, OKT:10, OCT:10, NOP:11, NOV:11, DES:12, DEC:12 };
 
-const LS = { token: 'br_token', theme: 'br_theme', basis: 'br_basis' };
+const LS = { token: 'br_token', session: 'br_session', theme: 'br_theme', basis: 'br_basis' };
 
 // ─── STATE ────────────────────────────────────────────────────
 let accessToken = null, tokenExpiry = 0, tokenClient = null, authPending = null;
+let session = null;                       // { token, expiry } in username/password mode
 let tabTitles = {};                       // resolved real tab names
 let rawSisaRows = [], rawBudgetRows = [], allTx = [];
 let budgetMap = {}, sisaMap = {}, usedMap = {}, mapNotes = [];
@@ -569,6 +637,7 @@ function toggleTheme() {
   try { localStorage.setItem(LS.theme, next); } catch (e) {}
   applyTheme(next);
   if (document.getElementById('page-chart').classList.contains('active')) renderCharts();
+  if (document.getElementById('page-daily').classList.contains('active')) renderDaily();
 }
 
 // ─── INIT ─────────────────────────────────────────────────────
@@ -580,6 +649,17 @@ async function boot() {
   buildCategoryUI();
   try { const b = localStorage.getItem(LS.basis); if (b === 'budget' || b === 'date') monthBasis = b; } catch (e) {}
   syncBasisUI();
+  document.getElementById('credForm').style.display = API_URL ? 'flex' : 'none';
+  document.getElementById('googleBtn').style.display = API_URL ? 'none' : 'inline-flex';
+
+  if (API_URL) {
+    // Username + password mode: a stored 30-day session opens straight in.
+    session = readSession();
+    if (session) { enterApp(); loadData(); return; }
+    showLogin();
+    return;
+  }
+  loadGis();
 
   // 1. A stored session means straight into the dashboard, no click.
   const saved = readSavedToken();
@@ -606,6 +686,8 @@ function buildSelectors() {
   fill(document.getElementById('budgetYear'), true);
   fill(document.getElementById('txMonth'), false);
   fill(document.getElementById('txYear'), true);
+  fill(document.getElementById('dailyMonth'), false);
+  fill(document.getElementById('dailyYear'), true);
   document.getElementById('dateFrom').value = `${y}-${String(m).padStart(2,'0')}-01`;
   document.getElementById('dateTo').value   = new Date(y, m, 0).toISOString().split('T')[0];
 }
@@ -615,6 +697,10 @@ function buildCategoryUI() {
   sel.innerHTML = '';
   sel.add(new Option('Semua Kategori', ''));
   CATEGORIES.forEach(c => sel.add(new Option(c.name, c.name)));
+  const dsel = document.getElementById('dailyCat');
+  dsel.innerHTML = '';
+  dsel.add(new Option('Semua Kategori', ''));
+  CATEGORIES.forEach(c => dsel.add(new Option(c.name, c.name)));
   document.getElementById('chartLegend').innerHTML = CATEGORIES.map(c =>
     `<span class="legend-item"><span class="legend-chip" style="background:${catColor(c)}"></span>${esc(c.icon + ' ' + c.name)}</span>`
   ).join('');
@@ -622,7 +708,65 @@ function buildCategoryUI() {
 // Returns the CSS variable itself, so a theme switch repaints without a rebuild.
 function catColor(cat) { return `var(--series-${cat.slot})`; }
 
-// ─── AUTH — one button, then silent from there on ─────────────
+// ─── AUTH: USERNAME + PASSWORD (Apps Script) ──────────────────
+async function apiCall(payload) {
+  let r;
+  try { r = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }); }   // text/plain: no CORS preflight
+  catch (e) { throw new Error('Tidak bisa menghubungi server. Periksa koneksi internet.'); }
+  if (!r.ok) throw new Error('Server membalas ' + r.status);
+  try { return await r.json(); } catch (e) { throw new Error('Balasan server tidak terbaca'); }
+}
+function readSession() {
+  try {
+    const v = JSON.parse(localStorage.getItem(LS.session) || 'null');
+    if (v && v.token && v.expiry > Date.now() + 60000) return v;
+    localStorage.removeItem(LS.session);
+  } catch (e) {}
+  return null;
+}
+function clearSession() { session = null; try { localStorage.removeItem(LS.session); } catch (e) {} }
+const LOGIN_ERRORS = {
+  invalid: 'Username atau password salah.',
+  locked: 'Terlalu banyak percobaan salah. Coba lagi dalam 15 menit.',
+  not_configured: 'Username/password belum diatur di Apps Script (Script Properties).',
+};
+async function credSignIn() {
+  const err = document.getElementById('loginError'), btn = document.getElementById('credBtn');
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  if (!username || !password) { err.textContent = 'Isi username dan password.'; return; }
+  err.textContent = ''; btn.disabled = true; btn.textContent = 'Memeriksa…';
+  try {
+    const j = await apiCall({ action: 'login', username, password });
+    if (!j.ok) {
+      let msg = LOGIN_ERRORS[j.error] || ('Gagal masuk: ' + (j.message || j.error));
+      if (j.error === 'invalid' && j.attemptsLeft) msg += ` Sisa ${j.attemptsLeft} percobaan sebelum dikunci.`;
+      if (j.error === 'locked' && j.retryMinutes) msg = `Terlalu banyak percobaan salah. Coba lagi dalam ${j.retryMinutes} menit.`;
+      err.textContent = msg;
+      return;
+    }
+    session = { token: j.token, expiry: j.expires };
+    try { localStorage.setItem(LS.session, JSON.stringify(session)); } catch (e) {}
+    document.getElementById('loginPass').value = '';
+    enterApp(); loadData();
+  } catch (e) {
+    err.textContent = e.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Masuk';
+  }
+}
+function togglePw() {
+  const el = document.getElementById('loginPass');
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+// ─── AUTH: GOOGLE (cadangan selama API_URL kosong) ────────────
+function loadGis() {
+  if (document.getElementById('gisScript')) return;
+  const sc = document.createElement('script');
+  sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true; sc.id = 'gisScript';
+  document.head.appendChild(sc);
+}
 function waitForGis(timeoutMs) {
   return new Promise(resolve => {
     const t0 = Date.now();
@@ -689,6 +833,7 @@ function readSavedToken() {
 function clearToken() { accessToken = null; tokenExpiry = 0; try { localStorage.removeItem(LS.token); } catch (e) {} }
 
 async function signIn() {
+  loadGis();
   const msg = document.getElementById('loginMsg');
   if (!(await waitForGis(8000))) { msg.textContent = 'Layanan Google belum siap. Periksa koneksi lalu coba lagi.'; return; }
   msg.textContent = 'Menghubungkan ke Google…';
@@ -701,6 +846,12 @@ async function signIn() {
   }
 }
 function signOut() {
+  if (API_URL) {
+    clearSession();
+    document.getElementById('loginError').textContent = '';
+    showLogin('Masuk untuk membuka data budget rumah.');
+    return;
+  }
   if (accessToken && window.google && google.accounts && google.accounts.oauth2) {
     google.accounts.oauth2.revoke(accessToken, () => {});
   }
@@ -724,6 +875,7 @@ function showLogin(message) {
 }
 // Keep the token usable even after the OS froze our timers in the background.
 async function ensureToken() {
+  if (API_URL) return !!session && session.expiry > Date.now();
   if (accessToken && Date.now() < tokenExpiry - 120000) return true;
   if (!(await waitForGis(8000))) return false;
   try { await requestToken(true); return true; } catch (e) { return false; }
@@ -731,6 +883,7 @@ async function ensureToken() {
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;
   if (document.getElementById('app').style.display === 'none') return;
+  if (API_URL) { if (!session || session.expiry <= Date.now()) { clearSession(); showLogin('Sesi berakhir. Silakan masuk lagi.'); } return; }
   if (Date.now() > tokenExpiry - 120000) ensureToken().then(ok => { if (ok) loadData(); });
 });
 
@@ -766,12 +919,22 @@ async function loadData(retried) {
   setLastUpdated('Memuat...');
   try {
     if (!(await ensureToken())) throw Object.assign(new Error('unauthorized'), { authError: true });
-    if (!tabTitles.tx) tabTitles = await fetchTabTitles();
-    const [sisaRows, budgetRows, txRows] = await Promise.all([
-      fetchRange(`${tabTitles.sisa}!A1:BZ400`),
-      fetchRange(`${tabTitles.budget}!A1:BZ400`),
-      fetchRange(`${tabTitles.tx}!A1:Z5000`),
-    ]);
+    let sisaRows, budgetRows, txRows;
+    if (API_URL) {
+      const j = await apiCall({ action: 'data', token: session.token });
+      if (!j.ok) {
+        if (j.error === 'unauthorized') throw Object.assign(new Error('unauthorized'), { authError: true });
+        throw new Error(j.message || j.error);
+      }
+      ({ sisa: sisaRows, budget: budgetRows, tx: txRows } = j.tabs);
+    } else {
+      if (!tabTitles.tx) tabTitles = await fetchTabTitles();
+      [sisaRows, budgetRows, txRows] = await Promise.all([
+        fetchRange(`${tabTitles.sisa}!A1:BZ400`),
+        fetchRange(`${tabTitles.budget}!A1:BZ400`),
+        fetchRange(`${tabTitles.tx}!A1:Z5000`),
+      ]);
+    }
     rawSisaRows = sisaRows;
     rawBudgetRows = budgetRows;
     parseTx(txRows);
@@ -779,6 +942,11 @@ async function loadData(retried) {
     renderAll();
     setLastUpdated('Update: ' + new Date().toLocaleTimeString('id-ID'));
   } catch (e) {
+    if (e.authError && API_URL) {
+      clearSession();
+      showLogin('Sesi berakhir. Silakan masuk lagi.');
+      return;
+    }
     if (e.authError && !retried) {
       // Token died while the app was in the background — re-auth once, quietly.
       clearToken();
@@ -1002,6 +1170,7 @@ function renderAll() {
   renderBudgetCards();
   renderTx();
   renderCharts();
+  renderDaily();
 }
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1009,6 +1178,7 @@ function showPage(name) {
   document.getElementById('page-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'chart') renderCharts();
+  if (name === 'daily') renderDaily();
 }
 function onBudgetMonthChange() {
   selBudgetMonth = parseInt(document.getElementById('budgetMonth').value, 10);
@@ -1199,7 +1369,7 @@ let resizeTimer = null, wasCompact = isCompact();
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    if (isCompact() !== wasCompact) { wasCompact = isCompact(); renderCharts(); }
+    if (isCompact() !== wasCompact) { wasCompact = isCompact(); renderCharts(); renderDaily(); }
   }, 200);
 });
 
@@ -1328,6 +1498,182 @@ function renderComposition() {
     <div class="stack-row" style="border-top:1px solid var(--border-soft);padding-top:8px">
       <span class="name" style="font-weight:700">Total</span><span class="val">${rp(total)}</span><span class="pct">100%</span>
     </div></div>`;
+}
+
+// ─── SPEND HARIAN (MENU 4) ────────────────────────────────────
+// Per-day spend can only come from Daftar Transaksi (transaction date):
+// REKAP/REAL hold one figure per month and cannot be split into days.
+function dailySeries(y, m, cat) {
+  const days = new Date(y, m, 0).getDate();
+  const out = [];
+  for (let d = 1; d <= days; d++) {
+    const values = {}; CATS.forEach(c => values[c] = 0);
+    out.push({ day: d, date: new Date(y, m - 1, d), values, count: 0 });
+  }
+  for (const tx of allTx) {
+    if (tx.date.getFullYear() !== y || tx.date.getMonth() + 1 !== m) continue;
+    if (cat && tx.pos !== cat) continue;
+    const slot = out[tx.date.getDate() - 1];
+    slot.values[tx.pos] += tx.nominal; slot.count++;
+  }
+  out.forEach(d => { d.total = CATS.reduce((sum, c) => sum + (d.values[c] || 0), 0); });
+  return out;
+}
+function topRoundedPath(x, y, w, h, r) {
+  r = Math.max(0, Math.min(r, w / 2, h));
+  return `M${x},${y + h} L${x},${y + r} Q${x},${y} ${x + r},${y} L${x + w - r},${y} Q${x + w},${y} ${x + w},${y + r} L${x + w},${y + h} Z`;
+}
+function renderDaily() {
+  const m = parseInt(document.getElementById('dailyMonth').value, 10);
+  const y = parseInt(document.getElementById('dailyYear').value, 10);
+  const cat = document.getElementById('dailyCat').value;
+  const series = cat ? [CAT_BY_NAME[cat]] : CATEGORIES;
+  const data = dailySeries(y, m, cat);
+  const period = `${MONTHS_ID[m - 1]} ${y}`;
+  const catLabel = cat ? `${CAT_BY_NAME[cat].icon} ${cat}` : 'semua kategori';
+  document.getElementById('dailyLabel').textContent = `Spend Harian — ${period}`;
+  document.getElementById('dailyTitle').textContent = `Spend per hari — ${catLabel}`;
+  document.getElementById('dailyDesc').textContent =
+    `Dari Daftar Transaksi menurut tanggal transaksi, karena REKAP/REAL hanya berisi angka bulanan. ` +
+    `Totalnya bisa berbeda dari Terpakai di kartu Sisa Budget. Klik atau sentuh batang untuk melihat transaksi hari itu.`;
+  document.getElementById('dailyLegend').innerHTML = cat ? '' : CATEGORIES.map(c =>
+    `<span class="legend-item"><span class="legend-chip" style="background:var(--series-${c.slot})"></span>${esc(c.icon + ' ' + c.name)}</span>`).join('');
+
+  // ── summary tiles ──
+  const today = new Date();
+  const isCurrent = y === today.getFullYear() && m === today.getMonth() + 1;
+  const isFuture = y > today.getFullYear() || (y === today.getFullYear() && m > today.getMonth() + 1);
+  const elapsed = isFuture ? 0 : isCurrent ? today.getDate() : data.length;
+  const total = data.reduce((sum, d) => sum + d.total, 0);
+  const count = data.reduce((sum, d) => sum + d.count, 0);
+  const activeDays = data.filter(d => d.count > 0).length;
+  const top = data.reduce((best, d) => (d.total > (best ? best.total : 0) ? d : best), null);
+  const dayName = d => d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+  const tiles = [
+    { label: 'Total Spend', value: rp(total), sub: `${count} transaksi · ${activeDays} hari ada pengeluaran` },
+    { label: 'Rata-rata per Hari', value: elapsed ? rp(total / elapsed) : '—', sub: elapsed ? `dari ${elapsed} hari ${isCurrent ? 'berjalan' : 'dalam bulan ini'}` : 'bulan belum berjalan' },
+    { label: 'Hari Tertinggi', value: top ? rp(top.total) : '—', sub: top ? dayName(top.date) : 'belum ada pengeluaran' },
+  ];
+  document.getElementById('dailySummary').innerHTML = tiles.map(t => `
+    <div class="tile">
+      <div class="tile-label">${esc(t.label)}</div>
+      <div class="tile-value">${t.value}</div>
+      <div class="tile-sub">${esc(t.sub)}</div>
+    </div>`).join('');
+
+  renderDailyTable(data, series, total);
+  const host = document.getElementById('dailyChart');
+  const tip = document.getElementById('dailyTip');
+  tip.style.opacity = 0;
+  if (total <= 0) { host.innerHTML = `<div class="empty">Belum ada transaksi ${esc(catLabel)} pada ${esc(period)}</div>`; return; }
+
+  // ── chart ──
+  const compact = isCompact();
+  const W = compact ? 360 : 760, H = compact ? 250 : 280;
+  const padL = compact ? 44 : 58, padR = compact ? 8 : 16, padT = 18, padB = 30;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const slotW = plotW / data.length;
+  const barW = Math.max(3, slotW * 0.68);
+  const max = Math.max(...data.map(d => series.reduce((sum, c) => sum + Math.max(0, d.values[c.name] || 0), 0)));
+  const topVal = niceCeil(max);
+  const Y = v => padT + plotH - (v / topVal) * plotH;
+  const base = padT + plotH;
+  const todayIdx = isCurrent ? today.getDate() - 1 : -1;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Spend harian ${esc(catLabel)} ${esc(period)}">`;
+  for (let g = 0; g <= 4; g++) {
+    const v = (topVal / 4) * g, gy = Y(v);
+    svg += `<line class="grid-line" x1="${padL}" y1="${gy}" x2="${padL + plotW}" y2="${gy}"></line>`;
+    svg += `<text class="axis-text" x="${padL - 8}" y="${gy + 3}" text-anchor="end">${fmtShort(v)}</text>`;
+  }
+  svg += `<rect id="dailyHover" class="col-hover" x="0" y="${padT}" width="${slotW}" height="${plotH}" rx="4" style="opacity:0"></rect>`;
+  data.forEach((d, i) => {
+    const cx = padL + slotW * (i + 0.5), x = cx - barW / 2;
+    // Stack bottom-up in category order; 2px surface gap between segments,
+    // 4px rounded data-end on the top segment only.
+    const segs = series.map(c => ({ c, v: Math.max(0, d.values[c.name] || 0) })).filter(sg => sg.v > 0);
+    let cursor = base;
+    segs.forEach((sg, k) => {
+      if (k > 0) cursor -= 2;
+      const h = Math.max(1, (sg.v / topVal) * plotH);
+      const yTop = cursor - h;
+      const isTop = k === segs.length - 1;
+      svg += isTop
+        ? `<path d="${topRoundedPath(x, yTop, barW, h, 4)}" style="fill:var(--series-${sg.c.slot})"></path>`
+        : `<rect x="${x}" y="${yTop}" width="${barW}" height="${h}" style="fill:var(--series-${sg.c.slot})"></rect>`;
+      cursor = yTop;
+    });
+    const show = compact ? (d.day === 1 || d.day % 5 === 0) : true;
+    if (show || i === todayIdx) {
+      svg += `<text class="axis-text${i === todayIdx ? ' axis-today' : ''}" x="${cx}" y="${base + 18}" text-anchor="middle">${d.day}</text>`;
+    }
+  });
+  // Selective direct label: only the highest day.
+  if (top) {
+    const ti = top.day - 1, cx = padL + slotW * (ti + 0.5);
+    const stackH = series.reduce((sum, c) => sum + Math.max(0, top.values[c.name] || 0), 0);
+    svg += `<text class="series-label peak-label" x="${cx}" y="${Y(stackH) - 6}" text-anchor="middle">${fmtShort(top.total)}</text>`;
+  }
+  svg += `</svg>`;
+  host.innerHTML = svg;
+
+  // ── hover / touch / click ──
+  const svgEl = host.querySelector('svg');
+  const hover = host.querySelector('#dailyHover');
+  const idxAt = (clientX) => {
+    const box = svgEl.getBoundingClientRect();
+    const vx = (clientX - box.left) * (W / box.width);
+    return Math.max(0, Math.min(data.length - 1, Math.floor((vx - padL) / slotW)));
+  };
+  const show = (clientX) => {
+    const idx = idxAt(clientX), d = data[idx];
+    const box = svgEl.getBoundingClientRect(), scale = W / box.width;
+    hover.setAttribute('x', padL + slotW * idx); hover.style.opacity = 1;
+    tip.innerHTML = `<b>${esc(d.date.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))}</b>` +
+      series.map(c => `<div class="tip-row"><span class="tip-chip" style="background:var(--series-${c.slot})"></span>` +
+        `<span>${esc(c.name)}</span><b>${rp(d.values[c.name] || 0)}</b></div>`).join('') +
+      (series.length > 1 ? `<div class="tip-row" style="margin-top:4px"><span>Total</span><b>${rp(d.total)}</b></div>` : '') +
+      `<div class="tip-row" style="opacity:.75"><span>${d.count} transaksi</span>${d.count ? '<span>klik untuk detail</span>' : ''}</div>`;
+    tip.style.opacity = 1;
+    const px = (padL + slotW * (idx + 0.5)) / scale, half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(box.width - half, px)) + 'px';
+    tip.style.transform = 'translateX(-50%)';
+    tip.style.top = '0px';
+  };
+  const hide = () => { tip.style.opacity = 0; hover.style.opacity = 0; };
+  svgEl.style.cursor = 'pointer';
+  svgEl.addEventListener('mousemove', e => show(e.clientX));
+  svgEl.addEventListener('mouseleave', hide);
+  svgEl.addEventListener('touchstart', e => { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+  svgEl.addEventListener('touchmove', e => { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+  svgEl.addEventListener('click', e => {
+    const d = data[idxAt(e.clientX)];
+    if (d.count) jumpToDay(toISO(d.date), cat);
+  });
+}
+function renderDailyTable(data, series, total) {
+  const rows = data.filter(d => d.count > 0);
+  const el = document.getElementById('dailyTable');
+  if (!rows.length) { el.innerHTML = '<div class="empty">Tidak ada transaksi</div>'; return; }
+  el.innerHTML = `<table>
+    <thead><tr><th>Tanggal</th>${series.map(c => `<th style="text-align:right">${esc(c.name)}</th>`).join('')}${series.length > 1 ? '<th style="text-align:right">Total</th>' : ''}</tr></thead>
+    <tbody>${rows.map(d => `<tr><td data-label="Tanggal">${fmtDate(d.date)}</td>` +
+      series.map(c => `<td data-label="${esc(c.name)}" class="amount-cell">${rp(d.values[c.name] || 0)}</td>`).join('') +
+      (series.length > 1 ? `<td data-label="Total" class="amount-cell">${rp(d.total)}</td>` : '') + `</tr>`).join('')}</tbody>
+    <tfoot><tr><td data-label="">TOTAL (${rows.length} hari)</td>${series.length > 1 ? series.map(c => `<td data-label="${esc(c.name)}" class="amount-cell">${rp(rows.reduce((sum, d) => sum + (d.values[c.name] || 0), 0))}</td>`).join('') : ''}<td data-label="Total" class="amount-cell">${rp(total)}</td></tr></tfoot>
+  </table><p class="hint" style="margin:10px 0 0">Hari tanpa transaksi tidak ditampilkan.</p>`;
+}
+function toggleDailyTable() {
+  const shown = document.getElementById('dailyTable').classList.toggle('show');
+  document.getElementById('dailyTableBtn').textContent = shown ? 'Sembunyikan tabel' : 'Lihat tabel';
+}
+function jumpToDay(iso, cat) {
+  document.getElementById('txCat').value = cat || '';
+  document.getElementById('txSearch').value = '';
+  document.getElementById('dateFrom').value = iso;
+  document.getElementById('dateTo').value = iso;
+  setTxMode('range');
+  showPage('tx');
 }
 
 // ─── UTILS ────────────────────────────────────────────────────
