@@ -180,6 +180,8 @@
     .nav-tab:hover { color: var(--text-muted); }
     .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .tab-short { display: none; }
+    .chart-switch { margin-bottom: 20px; }
+    .chart-switch .btn { padding: 8px 16px; font-size: 0.84rem; }
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
     .last-updated { font-size: 0.75rem; color: var(--text-faint); white-space: nowrap; }
 
@@ -325,6 +327,8 @@
       #refreshBtn { padding: 6px 9px; }
       .nav-right { gap: 8px; }
       .last-updated { display: none; }
+      .tile { padding: 12px 13px; }
+      .tile-value { font-size: 1.08rem; }
       input[type="search"] { min-width: 0; width: 100%; }
       .filter-col { width: 100%; }
       .filter-divider { display: none; }
@@ -398,7 +402,6 @@
     <button class="nav-tab active" id="tab-budget" onclick="showPage('budget')">💰 <span class="tab-long">Sisa Budget</span><span class="tab-short">Budget</span></button>
     <button class="nav-tab" id="tab-tx" onclick="showPage('tx')">📋 <span class="tab-long">Daftar Transaksi</span><span class="tab-short">Transaksi</span></button>
     <button class="nav-tab" id="tab-chart" onclick="showPage('chart')">📊 Grafik</button>
-    <button class="nav-tab" id="tab-daily" onclick="showPage('daily')">📅 Harian</button>
     <div class="nav-right">
       <span class="last-updated" id="lastUpdated"></span>
       <button class="btn btn-secondary btn-sm" id="refreshBtn" onclick="refreshData()">
@@ -499,42 +502,18 @@
     </div>
   </div>
 
-  <!-- MENU 3: GRAFIK -->
+  <!-- MENU 3: GRAFIK — per hari & per bulan -->
   <div class="page" id="page-chart">
     <div class="main">
-      <p class="section-label">Grafik</p>
-      <div class="legend" id="chartLegend"></div>
-
-      <div class="chart-card">
-        <div class="chart-head">
-          <div>
-            <div class="chart-title">Tren pengeluaran 12 bulan</div>
-            <div class="chart-desc" id="trendDesc"></div>
-          </div>
-          <button class="btn btn-secondary btn-sm" id="trendTableBtn" onclick="toggleTrendTable()">Lihat tabel</button>
+      <div class="chart-switch">
+        <div class="seg" role="tablist" aria-label="Jenis grafik">
+          <button class="btn btn-sm" id="chartModeDay" role="tab" onclick="setChartMode('day')">📅 Per Hari</button>
+          <button class="btn btn-sm" id="chartModeMonth" role="tab" onclick="setChartMode('month')">📈 Per Bulan</button>
         </div>
-        <div class="chart-wrap" id="trendWrap">
-          <div id="trendChart"></div>
-          <div class="chart-tip" id="trendTip"></div>
-        </div>
-        <div class="data-table table-wrap" id="trendTable"></div>
       </div>
 
-      <div class="chart-card">
-        <div class="chart-head">
-          <div>
-            <div class="chart-title">Komposisi pengeluaran</div>
-            <div class="chart-desc" id="compDesc"></div>
-          </div>
-        </div>
-        <div id="compChart"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MENU 4: SPEND HARIAN -->
-  <div class="page" id="page-daily">
-    <div class="main">
+      <!-- Per Hari: spend tiap hari dalam satu bulan -->
+      <section id="chartDaily">
       <p class="section-label" id="dailyLabel">Spend Harian</p>
       <div class="controls" style="padding-bottom:18px">
         <div class="ctrl-group">
@@ -563,6 +542,38 @@
         </div>
         <div class="data-table table-wrap" id="dailyTable"></div>
       </div>
+      </section>
+
+      <!-- Per Bulan: tren 12 bulan & komposisi -->
+      <section id="chartMonthly" style="display:none">
+      <p class="section-label">Grafik Per Bulan</p>
+      <div class="legend" id="chartLegend"></div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Tren pengeluaran 12 bulan</div>
+            <div class="chart-desc" id="trendDesc"></div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="trendTableBtn" onclick="toggleTrendTable()">Lihat tabel</button>
+        </div>
+        <div class="chart-wrap" id="trendWrap">
+          <div id="trendChart"></div>
+          <div class="chart-tip" id="trendTip"></div>
+        </div>
+        <div class="data-table table-wrap" id="trendTable"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Komposisi pengeluaran</div>
+            <div class="chart-desc" id="compDesc"></div>
+          </div>
+        </div>
+        <div id="compChart"></div>
+      </div>
+      </section>
     </div>
   </div>
 </div>
@@ -598,7 +609,7 @@ const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt
 const MONTH_TOKENS = { JAN:1, FEB:2, MAR:3, MRT:3, APR:4, MEI:5, MAY:5, JUN:6, JUL:7,
                        AGU:8, AGS:8, AGT:8, AUG:8, SEP:9, OKT:10, OCT:10, NOP:11, NOV:11, DES:12, DEC:12 };
 
-const LS = { session: 'br_session', theme: 'br_theme', basis: 'br_basis', legacyGoogleToken: 'br_token' };
+const LS = { session: 'br_session', theme: 'br_theme', basis: 'br_basis', chartMode: 'br_chart_mode', legacyGoogleToken: 'br_token' };
 
 // ─── STATE ────────────────────────────────────────────────────
 let session = null;                       // { token, expiry } from the Apps Script login
@@ -609,6 +620,7 @@ let monthBasis = 'budget';                // 'budget' | 'date'
 let selBudgetMonth = new Date().getMonth() + 1;
 let selBudgetYear  = new Date().getFullYear();
 let txMode = 'month';
+let chartMode = 'day';                   // Grafik tab: 'day' | 'month'
 let isLoading = false;
 
 // ─── THEME ────────────────────────────────────────────────────
@@ -626,8 +638,7 @@ function toggleTheme() {
   const next = dark ? 'light' : 'dark';
   try { localStorage.setItem(LS.theme, next); } catch (e) {}
   applyTheme(next);
-  if (document.getElementById('page-chart').classList.contains('active')) renderCharts();
-  if (document.getElementById('page-daily').classList.contains('active')) renderDaily();
+  if (document.getElementById('page-chart').classList.contains('active')) { renderCharts(); renderDaily(); }
 }
 
 // ─── INIT ─────────────────────────────────────────────────────
@@ -638,7 +649,9 @@ async function boot() {
   buildSelectors();
   buildCategoryUI();
   try { const b = localStorage.getItem(LS.basis); if (b === 'budget' || b === 'date') monthBasis = b; } catch (e) {}
+  try { const c = localStorage.getItem(LS.chartMode); if (c === 'day' || c === 'month') chartMode = c; } catch (e) {}
   syncBasisUI();
+  syncChartMode();
   try { localStorage.removeItem(LS.legacyGoogleToken); } catch (e) {}   // left over from Google sign-in
 
   // A stored 30-day session opens straight into the dashboard.
@@ -1002,8 +1015,24 @@ function showPage(name) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'chart') renderCharts();
-  if (name === 'daily') renderDaily();
+  if (name === 'chart') { renderCharts(); renderDaily(); }
+}
+// Grafik tab: per-day spend (default) or the 12-month view.
+function setChartMode(mode) {
+  chartMode = mode;
+  try { localStorage.setItem(LS.chartMode, mode); } catch (e) {}
+  syncChartMode();
+  if (mode === 'day') renderDaily(); else renderCharts();
+}
+function syncChartMode() {
+  const day = chartMode === 'day';
+  document.getElementById('chartDaily').style.display = day ? 'block' : 'none';
+  document.getElementById('chartMonthly').style.display = day ? 'none' : 'block';
+  [['chartModeDay', day], ['chartModeMonth', !day]].forEach(([id, on]) => {
+    const b = document.getElementById(id);
+    b.className = 'btn btn-sm' + (on ? ' btn-active' : ' btn-secondary');
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
 }
 function onBudgetMonthChange() {
   selBudgetMonth = parseInt(document.getElementById('budgetMonth').value, 10);
@@ -1172,7 +1201,7 @@ function renderTx() {
     <td data-label="Total" class="amount-cell">${rp(total)}</td></tr>`;
 }
 
-// ─── GRAFIK (MENU 3) ──────────────────────────────────────────
+// ─── GRAFIK PER BULAN ─────────────────────────────────────────
 // 12 months ending at the selected month, summed on the active basis.
 function monthlySeries(n) {
   const out = [];
@@ -1325,7 +1354,7 @@ function renderComposition() {
     </div></div>`;
 }
 
-// ─── SPEND HARIAN (MENU 4) ────────────────────────────────────
+// ─── GRAFIK PER HARI ──────────────────────────────────────────
 // Per-day spend can only come from Daftar Transaksi (transaction date):
 // REKAP/REAL hold one figure per month and cannot be split into days.
 function dailySeries(y, m, cat) {
